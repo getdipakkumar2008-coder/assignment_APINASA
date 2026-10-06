@@ -1,6 +1,5 @@
 using MarsPhotos.Application;
 using MarsPhotos.Infrastructure.Configuration;
-using MarsPhotos.Infrastructure.Logging;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;

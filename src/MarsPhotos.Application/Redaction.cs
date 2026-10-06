@@ -1,6 +1,6 @@
 using System.Text.RegularExpressions;
 
-namespace MarsPhotos.Infrastructure.Logging;
+namespace MarsPhotos.Application;
 
 /// <summary>Removes secrets from text that may be logged or shown (FR-026, SEC-1).</summary>
 public static partial class Redaction

@@ -1,5 +1,6 @@
 using MarsPhotos.Application;
 using MarsPhotos.Application.Abstractions;
+using MarsPhotos.Application.Processing;
 using MarsPhotos.Infrastructure.Download;
 using MarsPhotos.Infrastructure.Http;
 using MarsPhotos.Infrastructure.Input;
@@ -33,6 +34,7 @@ public static class ServiceCollectionExtensions
         services.TryAddSingleton(TimeProvider.System);
         services.TryAddSingleton(sp => new UrlPolicy(sp.GetRequiredService<IOptions<RunOptions>>().Value.AllowedImageHosts));
 
+        services.TryAddTransient<ProcessDatesUseCase>();
         services.TryAddSingleton<IDateSource, FileDateSource>();
         services.TryAddSingleton<IPhotoStore, FileSystemPhotoStore>();
         services.TryAddSingleton<IPhotoDownloader, HttpPhotoDownloader>();
