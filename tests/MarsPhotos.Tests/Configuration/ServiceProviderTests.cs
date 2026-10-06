@@ -1,4 +1,6 @@
 using MarsPhotos.Application.Abstractions;
+using MarsPhotos.Application.Processing;
+using MarsPhotos.Application.Providers;
 using MarsPhotos.Infrastructure.Configuration;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -27,5 +29,24 @@ public class ServiceProviderTests
         Assert.NotNull(provider.GetRequiredService<IPhotoStore>());
         Assert.NotNull(provider.GetRequiredService<IPhotoDownloader>());
         Assert.NotNull(provider.GetRequiredService<IDateSource>());
+    }
+
+    [Fact]
+    public void The_use_case_resolves_with_a_fake_key_and_the_chain_is_the_provider()
+    {
+        using var provider = Build();
+
+        Assert.NotNull(provider.GetRequiredService<ProcessDatesUseCase>());
+        Assert.IsType<ProviderChain>(provider.GetRequiredService<IPhotoProvider>());
+    }
+
+    [Fact]
+    public void Resolving_the_use_case_without_a_key_fails_with_the_actionable_message()
+    {
+        using var provider = Build(new() { ["Nasa:ApiKey"] = string.Empty });
+
+        var ex = Assert.ThrowsAny<Exception>(() => provider.GetRequiredService<Microsoft.Extensions.Options.IOptions<MarsPhotos.Application.NasaOptions>>().Value);
+
+        Assert.Contains("NASA__ApiKey", ex.Message);
     }
 }

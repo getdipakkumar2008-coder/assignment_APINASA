@@ -1,9 +1,11 @@
 using MarsPhotos.Application;
 using MarsPhotos.Application.Abstractions;
 using MarsPhotos.Application.Processing;
+using MarsPhotos.Application.Providers;
 using MarsPhotos.Infrastructure.Download;
 using MarsPhotos.Infrastructure.Http;
 using MarsPhotos.Infrastructure.Input;
+using MarsPhotos.Infrastructure.Providers;
 using MarsPhotos.Infrastructure.Security;
 using MarsPhotos.Infrastructure.Storage;
 using Microsoft.Extensions.Configuration;
@@ -53,11 +55,27 @@ public static class ServiceCollectionExtensions
                 run => TimeSpan.FromSeconds(run.DownloadTimeoutSeconds),
                 run => TimeSpan.FromSeconds(run.DownloadTimeoutSeconds * 2));
 
+        // Photo sources: the Mars Rover Photos service first, NASA's raw-image feed as automatic fallback (OQ-10).
+        foreach (var clientName in new[] { MarsRoverPhotosProvider.HttpClientName, RawImageFeedProvider.HttpClientName })
+        {
+            services.AddHttpClient(clientName, client => client.DefaultRequestHeaders.UserAgent.ParseAdd("MarsPhotoDownloader/1.0"))
+                .AddPhotoResilience(
+                    run => TimeSpan.FromSeconds(run.LookupTimeoutSeconds),
+                    run => TimeSpan.FromSeconds(run.TotalBudgetSeconds));
+        }
+
+        services.TryAddSingleton<MarsRoverPhotosProvider>();
+        services.TryAddSingleton<RawImageFeedProvider>();
+        services.TryAddSingleton<IPhotoProvider>(sp => new ProviderChain(
+            [sp.GetRequiredService<MarsRoverPhotosProvider>(), sp.GetRequiredService<RawImageFeedProvider>()],
+            sp.GetRequiredService<ILogger<ProviderChain>>()));
+
         // The key must never reach logs through request URLs: keep HttpClient's own request logging at Warning.
         services.AddLogging(b =>
         {
             b.AddFilter("System.Net.Http.HttpClient", LogLevel.Warning);
             b.AddFilter("Microsoft.Extensions.Http", LogLevel.Warning);
+            b.AddFilter("Polly", LogLevel.Warning);
         });
 
         return services;
