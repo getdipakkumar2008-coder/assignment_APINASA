@@ -1,0 +1,131 @@
+openapi: 3.0.3
+info:
+  title: Mars Rover Photo Downloader API
+  version: 1.0.0
+  description: Runs the date-to-photos pipeline and returns the result summary. Local use only; no authentication.
+servers:
+  - url: http://localhost:5080
+paths:
+  /api/runs:
+    post:
+      summary: Execute a run (reads the configured dates file unless dates are supplied)
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RunRequest'
+      responses:
+        '200':
+          description: Run completed (individual dates may report errors)
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/RunSummary' }
+        '400':
+          description: Invalid request (more than 100 dates, line too long, bad rover)
+          content:
+            application/problem+json:
+              schema: { $ref: '#/components/schemas/ProblemDetails' }
+        '500':
+          description: Fatal condition (missing key, unreadable input, unwritable output)
+          content:
+            application/problem+json:
+              schema: { $ref: '#/components/schemas/ProblemDetails' }
+  /api/runs/latest:
+    get:
+      summary: Last completed run in this process
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/RunSummary' }
+        '404':
+          description: No run yet
+  /photos/{date}/{file}:
+    get:
+      summary: Static stored photo (thumbnail source); only files under the photos root
+      parameters:
+        - { name: date, in: path, required: true, schema: { type: string, pattern: '^\d{4}-\d{2}-\d{2}$' } }
+        - { name: file, in: path, required: true, schema: { type: string } }
+      responses:
+        '200': { description: image }
+        '404': { description: not found }
+  /health:
+    get:
+      summary: Liveness
+      responses:
+        '200': { description: Healthy }
+components:
+  schemas:
+    RunRequest:
+      type: object
+      properties:
+        dates:
+          type: array
+          maxItems: 100
+          items: { type: string, maxLength: 200 }
+          description: Optional raw date lines; omitted means use the configured file
+        rover: { type: string, enum: [curiosity, opportunity, spirit] }
+        photosPerDate: { type: integer, minimum: 3, maximum: 5 }
+    RunSummary:
+      type: object
+      required: [rover, startedAt, durationMs, totals, results]
+      properties:
+        rover: { type: string }
+        startedAt: { type: string, format: date-time }
+        durationMs: { type: integer }
+        totals:
+          type: object
+          properties:
+            lines: { type: integer }
+            valid: { type: integer }
+            invalid: { type: integer }
+            outsideMissionRange: { type: integer }
+            downloaded: { type: integer }
+            skipped: { type: integer }
+            failed: { type: integer }
+        results:
+          type: array
+          items: { $ref: '#/components/schemas/DateResult' }
+    DateResult:
+      type: object
+      required: [input, status, downloaded, skipped, failed, photos, errors]
+      properties:
+        input: { type: string }
+        date: { type: string, format: date, nullable: true }
+        status:
+          type: string
+          enum: [Success, NoPhotos, InvalidDate, UnrecognizedDate, OutsideMissionRange, DuplicateDate, SourceUnavailable, PartialFailure, Failed]
+        provider: { type: string, nullable: true, enum: [MarsRoverPhotos, RawImageFeed] }
+        fallbackReason: { type: string, nullable: true }
+        photosAvailable: { type: integer }
+        downloaded: { type: integer }
+        skipped: { type: integer }
+        failed: { type: integer }
+        photos:
+          type: array
+          items:
+            type: object
+            properties:
+              id: { type: string }
+              status: { type: string, enum: [Downloaded, Skipped, Failed] }
+              url: { type: string, nullable: true, description: relative path such as /photos/2017-02-27/file.jpg }
+              error: { $ref: '#/components/schemas/ErrorInfo' }
+        errors:
+          type: array
+          items: { $ref: '#/components/schemas/ErrorInfo' }
+    ErrorInfo:
+      type: object
+      required: [code, message]
+      properties:
+        code: { type: string, example: DATE_INVALID }
+        message: { type: string, example: Day 31 does not exist in April 2018 }
+    ProblemDetails:
+      type: object
+      properties:
+        type: { type: string }
+        title: { type: string }
+        status: { type: integer }
+        detail: { type: string }
+        code: { type: string }
