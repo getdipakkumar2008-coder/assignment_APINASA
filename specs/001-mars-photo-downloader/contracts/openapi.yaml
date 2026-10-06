@@ -115,6 +115,7 @@ components:
           enum: [Success, NoPhotos, InvalidDate, UnrecognizedDate, OutsideMissionRange, DuplicateDate, SourceUnavailable, PartialFailure, Failed, Cancelled]
         provider: { type: string, nullable: true, enum: [MarsRoverPhotos, RawImageFeed] }
         fallbackReason: { type: string, nullable: true }
+        note: { type: string, nullable: true, description: Explanation for non-error outcomes (duplicate, outside mission range, no photos, cancelled) }
         photosAvailable: { type: integer }
         downloaded: { type: integer }
         skipped: { type: integer }
