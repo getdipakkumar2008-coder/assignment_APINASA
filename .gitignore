@@ -1,0 +1,23 @@
+# Secrets / local config
+.env
+*.local.json
+appsettings.*.local.json
+secrets.json
+# Output & artifacts
+photos/
+logs/
+bin/
+obj/
+node_modules/
+dist/
+.angular/
+TestResults/
+coverage/
+# OS / editor
+.~lock.*
+.vs/
+.idea/
+*.user
+.DS_Store
+# Claude local
+.claude/settings.local.json
