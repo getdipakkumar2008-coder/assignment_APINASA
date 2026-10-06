@@ -14,7 +14,7 @@ internal static class QuotaWatch
             return;
         }
 
-        if (int.TryParse(values.FirstOrDefault(), out var remaining) && remaining < WarnBelow)
+        if (int.TryParse(values.FirstOrDefault(), System.Globalization.NumberStyles.Integer, System.Globalization.CultureInfo.InvariantCulture, out var remaining) && remaining < WarnBelow)
         {
             logger.LogWarning(
                 "NASA API quota is nearly used up: {Remaining} requests remaining (warning below {Threshold}).",

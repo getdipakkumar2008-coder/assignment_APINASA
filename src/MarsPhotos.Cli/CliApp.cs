@@ -164,7 +164,7 @@ public static class CliApp
                         "--count" => "Run:PhotosPerDate",
                         _ => "Run:OutputRoot",
                     };
-                    if (key == "Run:PhotosPerDate" && !int.TryParse(value, out _))
+                    if (key == "Run:PhotosPerDate" && !int.TryParse(value, System.Globalization.NumberStyles.Integer, System.Globalization.CultureInfo.InvariantCulture, out _))
                     {
                         return new ParsedArgs(overrides, json, false, $"--count must be a whole number (was '{value}').");
                     }

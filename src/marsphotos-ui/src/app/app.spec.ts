@@ -46,6 +46,19 @@ describe('App', () => {
     expect(root.querySelector('app-results')).toBeNull();
   });
 
+  it('tells the user when the API cannot be reached on load instead of failing silently', async () => {
+    fixture = TestBed.createComponent(App);
+    http = TestBed.inject(HttpTestingController);
+    root = fixture.nativeElement as HTMLElement;
+    fixture.detectChanges();
+
+    http.expectOne('/api/runs/latest').error(new ProgressEvent('error'), { status: 0 });
+    await fixture.whenStable();
+
+    expect(root.querySelector('[role="alert"]')?.textContent).toContain('Cannot reach the API');
+    expect(runButton().disabled).toBe(false);
+  });
+
   it('shows the previous run when the API already has one', async () => {
     await start('summary');
 

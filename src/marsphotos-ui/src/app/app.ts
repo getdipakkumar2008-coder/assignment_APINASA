@@ -48,9 +48,8 @@ export class App implements OnInit {
           this.summary.set(latest);
         }
       },
-      error: () => {
-        // The previous run is a convenience; failing to load it is not worth alarming the user.
-      },
+      // A broken API at load time (down, wrong base URL, proxy misroute) should be visible, not silent.
+      error: (err: ApiError) => this.error.set(err),
     });
   }
 

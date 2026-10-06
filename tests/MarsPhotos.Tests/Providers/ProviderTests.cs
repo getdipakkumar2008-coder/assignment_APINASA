@@ -54,6 +54,34 @@ public class PhotoOrderingTests
         Assert.Equal(["7", "99999", "100000", "102693"], sorted.Select(p => p.Id));
     }
 
+    [Theory]
+    [InlineData("sv-SE")] // negative sign is U+2212 here
+    [InlineData("de-DE")]
+    [InlineData("ar-SA")]
+    [InlineData("tr-TR")]
+    public void Ordering_does_not_depend_on_the_machine_culture(string cultureName)
+    {
+        // "-5" is a number to the invariant culture but not to cultures whose minus sign is U+2212 (sv-SE): with a
+        // culture-dependent parser the same ids would sort differently on different machines.
+        var ids = new[] { "10", "-5", "9" };
+        var original = System.Globalization.CultureInfo.CurrentCulture;
+        try
+        {
+            System.Globalization.CultureInfo.CurrentCulture = System.Globalization.CultureInfo.InvariantCulture;
+            var invariant = PhotoOrdering.Sort(ids.Select(P)).Select(p => p.Id).ToList();
+
+            System.Globalization.CultureInfo.CurrentCulture = new System.Globalization.CultureInfo(cultureName);
+            var sorted = PhotoOrdering.Sort(ids.Select(P)).Select(p => p.Id).ToList();
+
+            Assert.Equal(invariant, sorted);
+            Assert.Equal(ids.OrderBy(x => x, StringComparer.Ordinal), sorted); // signs are not digits: plain character order everywhere
+        }
+        finally
+        {
+            System.Globalization.CultureInfo.CurrentCulture = original;
+        }
+    }
+
     [Fact]
     public void Mixed_or_text_ids_sort_ordinally()
     {

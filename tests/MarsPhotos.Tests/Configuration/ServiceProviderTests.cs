@@ -40,6 +40,26 @@ public class ServiceProviderTests
         Assert.IsType<ProviderChain>(provider.GetRequiredService<IPhotoProvider>());
     }
 
+    [Theory]
+    [InlineData("photo-download")]
+    [InlineData("mars-photos-primary")]
+    [InlineData("raw-image-feed")]
+    public void The_real_http_clients_never_follow_redirects(string clientName)
+    {
+        // The unit tests use fake handlers, so this checks the actual registered handler chain.
+        using var provider = Build();
+        var handler = provider.GetRequiredService<System.Net.Http.IHttpMessageHandlerFactory>().CreateHandler(clientName);
+
+        System.Net.Http.SocketsHttpHandler? primary = null;
+        for (var h = handler; h is not null; h = (h as System.Net.Http.DelegatingHandler)?.InnerHandler)
+        {
+            primary = h as System.Net.Http.SocketsHttpHandler ?? primary;
+        }
+
+        Assert.NotNull(primary);
+        Assert.False(primary.AllowAutoRedirect, $"{clientName} must not follow redirects (the key is in the query string / every hop is validated)");
+    }
+
     [Fact]
     public void Resolving_the_use_case_without_a_key_fails_with_the_actionable_message()
     {
