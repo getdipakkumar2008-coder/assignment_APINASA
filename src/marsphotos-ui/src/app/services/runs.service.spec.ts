@@ -74,18 +74,24 @@ describe('RunsService', () => {
     expect(error?.detail).not.toContain('<html>');
   });
 
-  it('latest() returns the summary, or null when no run exists yet (204, or 404 from older servers)', () => {
+  it('latest() returns the summary, or null when no run exists yet (204)', () => {
     const results: unknown[] = [];
     service.latest().subscribe((s) => results.push(s));
     http.expectOne('/api/runs/latest').flush(mixedSummary());
     service.latest().subscribe((s) => results.push(s));
     http.expectOne('/api/runs/latest').flush(null, { status: 204, statusText: 'No Content' });
-    service.latest().subscribe((s) => results.push(s));
-    http.expectOne('/api/runs/latest').flush({ code: 'NO_RUN_YET' }, { status: 404, statusText: 'Not Found' }); // older servers
 
     expect(results[0]).toBeTruthy();
     expect(results[1]).toBeNull();
-    expect(results[2]).toBeNull();
+  });
+
+  it('latest() surfaces a 404 as an error instead of hiding a wrong base URL or proxy misroute as "no run yet"', () => {
+    let error: ApiError | undefined;
+    service.latest().subscribe({ error: (e) => (error = e) });
+
+    http.expectOne('/api/runs/latest').flush('not found', { status: 404, statusText: 'Not Found' });
+
+    expect(error?.status).toBe(404);
   });
 
   it('cancel() posts to /api/runs/cancel', () => {

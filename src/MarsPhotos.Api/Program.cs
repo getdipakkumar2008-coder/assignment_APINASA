@@ -39,6 +39,21 @@ var photosRoot = Path.GetFullPath(runSettings.OutputRoot);
 Directory.CreateDirectory(photosRoot);
 
 app.UseExceptionHandler();
+
+// Run state changes between requests, and a 204 is cacheable by default, so never let a browser or proxy reuse API answers.
+app.Use((context, next) =>
+{
+    if (context.Request.Path.StartsWithSegments("/api"))
+    {
+        context.Response.OnStarting(() =>
+        {
+            context.Response.Headers.CacheControl = "no-store";
+            return Task.CompletedTask;
+        });
+    }
+
+    return next();
+});
 app.UseCors("ui");
 
 // CORS only stops a page from *reading* a response; it does not stop another site's page from *sending* a simple POST that

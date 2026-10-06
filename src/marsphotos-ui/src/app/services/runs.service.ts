@@ -1,6 +1,6 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable, InjectionToken, inject } from '@angular/core';
-import { Observable, catchError, map, of, throwError } from 'rxjs';
+import { Observable, catchError, map, throwError } from 'rxjs';
 import { RunRequest, RunSummary } from '../models/run-summary';
 
 /** Base URL of the API. Empty in development because the dev server proxies /api and /photos. */
@@ -64,7 +64,7 @@ export class RunsService {
   latest(): Observable<RunSummary | null> {
     return this.http.get<RunSummary | null>(`${this.base}/api/runs/latest`).pipe(
       map((summary) => summary ?? null), // 204 No Content means no run yet
-      catchError((error: HttpErrorResponse) => (error.status === 404 ? of(null) : toApiError(error))),
+      catchError(toApiError), // anything else, including a 404 from a wrong base URL or proxy, is a real error
     );
   }
 

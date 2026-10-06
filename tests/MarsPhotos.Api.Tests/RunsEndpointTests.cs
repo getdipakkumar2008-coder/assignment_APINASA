@@ -161,6 +161,23 @@ public class RunsEndpointTests
     }
 
     [Fact]
+    public async Task Api_responses_are_never_cached_so_a_reload_after_a_run_shows_the_new_result()
+    {
+        using var factory = new ApiFactory();
+        using var client = factory.CreateClient();
+
+        var before = await client.GetAsync("/api/runs/latest");   // 204
+        var run = await client.PostAsync("/api/runs", null);      // 200
+        var after = await client.GetAsync("/api/runs/latest");    // 200
+        var bad = await client.PostAsJsonAsync("/api/runs", new { rover = "x" }); // 400
+
+        foreach (var response in new[] { before, run, after, bad })
+        {
+            Assert.Equal("no-store", response.Headers.CacheControl?.ToString());
+        }
+    }
+
+    [Fact]
     public async Task Health_is_ok()
     {
         using var factory = new ApiFactory();
