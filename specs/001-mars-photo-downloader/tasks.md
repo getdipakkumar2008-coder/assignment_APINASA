@@ -226,7 +226,7 @@ description: "Task list for Mars Rover Photo Downloader"
 - [X] T069 Security review: run `dotnet list package --vulnerable --include-transitive`, `npm audit --prefix src/marsphotos-ui`, `scripts/check-no-secrets.*`, confirm CORS/static-file/URL-policy tests green; record results in `specs/001-mars-photo-downloader/review.md`. [SEC-1..SEC-10, SC-007, AC-8]
 - [X] T070 [P] Performance/behaviour check: time a real run of the four sample lines (expect < 30 s) and record in `verification.md`; confirm memory-streaming (no full-image buffering) by code review note. [SC-008, NFR-5]
 - [X] T071 Final acceptance: execute `quickstart.md` steps 1-7 on a clean clone state (fresh `photos/`), tick AC-1..AC-12 with evidence in `verification.md`, confirm second run downloads 0 (AC-5) and `git log` has ≥ 8 meaningful commits (AC-10). [AC-1–AC-12, SC-001–SC-010, SC-009 (README-only build and run, >= 8 commits)]
-- [ ] T072 Run `/speckit-analyze`, then after all tasks `/speckit-converge`; repeat `implement` → `converge` until convergence. [Constitution §Workflow]
+- [X] T072 Run `/speckit-analyze`, then after all tasks `/speckit-converge`; repeat `implement` → `converge` until convergence. [Constitution §Workflow]
 
 **COMMIT**: `chore: add Dockerfile` · `docs: add README and AI_NOTES` · `docs: add traceability and review records`
 
@@ -271,12 +271,12 @@ description: "Task list for Mars Rover Photo Downloader"
 
 ## Phase 11: Convergence
 
-Appended by `/speckit-converge` on 2026-10-06 (outcome: `tasks_appended`).
+Appended by `/speckit-converge` on 2026-10-06 (outcome: `tasks_appended`). Re-check after T073-T076: no new gaps; the only open item is T077, which needs a person.
 
 - [X] T073 CRITICAL: add type-level XML documentation to the 20 public types that lack it, starting with the ports `IDateSource`, `IPhotoDownloader`, `IPhotoProvider`, `IPhotoStore`, then `NasaOptions`, `RunOptions`, `DownloadResult`, `DateStatus`, `PhotoStatus` and the DTO records in `src/MarsPhotos.Application/Output/RunSummaryJson.cs`, per Constitution XIII (partial)
 - [X] T074 Update `specs/001-mars-photo-downloader/contracts/openapi.yaml` (403 `FORBIDDEN_ORIGIN`, 415 `UNSUPPORTED_MEDIA_TYPE`, 409 `RUN_CANCELLED`) and `contracts/cli.md` (totals line includes "outside range") to match the implemented behavior per FR-019 and FR-037 (partial)
 - [X] T075 Update `specs/001-mars-photo-downloader/plan.md`: correct D-7 (file names use `FileNames.StemFor`) and record the review-driven decisions D-14 origin guard and 415 check, D-15 solution-root path resolution (`ProjectPaths`), D-16 API port 5180, per plan: key design decisions (partial)
 - [X] T076 Record the supporting files that no task called for (`scripts/gen_traceability.py`, `scripts/check-no-secrets.*`, `docs/ui-results.png`, `.gitattributes`) in the plan's repository structure with their purpose, per plan: source layout (unrequested)
 - [ ] T077 A person performs a keyboard-only walkthrough, a screen-reader pass (Narrator or NVDA) and a colour-contrast tool check of the UI, and records the outcome in `specs/001-mars-photo-downloader/verification.md`, per FR-041 and NFR-11 (partial, requires a human)
-- [ ] T078 Re-run `/speckit-analyze` and `/speckit-converge` after T073 to T076 and confirm no CRITICAL or HIGH findings remain, per Constitution (Workflow: converge loop)
+- [X] T078 Re-run `/speckit-analyze` and `/speckit-converge` after T073 to T076 and confirm no CRITICAL or HIGH findings remain, per Constitution (Workflow: converge loop)
 
