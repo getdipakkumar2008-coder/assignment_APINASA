@@ -1,5 +1,10 @@
 using MarsPhotos.Application;
+using MarsPhotos.Application.Abstractions;
+using MarsPhotos.Infrastructure.Download;
+using MarsPhotos.Infrastructure.Http;
+using MarsPhotos.Infrastructure.Input;
 using MarsPhotos.Infrastructure.Security;
+using MarsPhotos.Infrastructure.Storage;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -27,6 +32,24 @@ public static class ServiceCollectionExtensions
 
         services.TryAddSingleton(TimeProvider.System);
         services.TryAddSingleton(sp => new UrlPolicy(sp.GetRequiredService<IOptions<RunOptions>>().Value.AllowedImageHosts));
+
+        services.TryAddSingleton<IDateSource, FileDateSource>();
+        services.TryAddSingleton<IPhotoStore, FileSystemPhotoStore>();
+        services.TryAddSingleton<IPhotoDownloader, HttpPhotoDownloader>();
+
+        // Redirects are followed manually by the downloader so every hop is checked against the URL policy.
+        services.AddHttpClient(HttpPhotoDownloader.HttpClientName, client =>
+            {
+                client.DefaultRequestHeaders.UserAgent.ParseAdd("MarsPhotoDownloader/1.0");
+            })
+            .ConfigurePrimaryHttpMessageHandler(() => new SocketsHttpHandler
+            {
+                AllowAutoRedirect = false,
+                PooledConnectionLifetime = TimeSpan.FromMinutes(5),
+            })
+            .AddPhotoResilience(
+                run => TimeSpan.FromSeconds(run.DownloadTimeoutSeconds),
+                run => TimeSpan.FromSeconds(run.DownloadTimeoutSeconds * 2));
 
         // The key must never reach logs through request URLs: keep HttpClient's own request logging at Warning.
         services.AddLogging(b =>

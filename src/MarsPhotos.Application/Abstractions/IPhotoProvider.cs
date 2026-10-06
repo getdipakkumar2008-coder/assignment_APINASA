@@ -9,6 +9,12 @@ public abstract record ProviderResult
     {
     }
 
+    /// <summary>Name of the provider that produced this answer (set by the provider itself).</summary>
+    public string? Provider { get; init; }
+
+    /// <summary>When an earlier provider was bypassed, why (set by the provider chain).</summary>
+    public string? FallbackReason { get; init; }
+
     /// <summary>One or more photos; <paramref name="Selected"/> is already ordered and truncated, <paramref name="Available"/> counts all offered.</summary>
     public sealed record Photos(IReadOnlyList<RoverPhoto> Selected, int Available) : ProviderResult;
 

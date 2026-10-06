@@ -11,6 +11,9 @@ public interface IPhotoStore
     /// <summary>True when a complete (non-empty) file with this name exists for the date. A <c>.part</c> file never counts.</summary>
     bool Exists(DateOnly date, string fileName);
 
+    /// <summary>Ensures the photos root exists and is writable; throws <see cref="FatalRunException"/> (IO_ERROR) otherwise.</summary>
+    void EnsureWritable();
+
     /// <summary>Path relative to the photos root using forward slashes, e.g. <c>2017-02-27/123.jpg</c>.</summary>
     string RelativePath(DateOnly date, string fileName);
 
