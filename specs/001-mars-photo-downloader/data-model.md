@@ -36,7 +36,7 @@ All types are immutable records in `MarsPhotos.Domain` unless noted. No persiste
 |---|---|---|
 | Input | string | original text |
 | Date | DateOnly? | null if not valid |
-| Status | `DateResultStatus` | `Success`, `NoPhotos`, `InvalidDate`, `UnrecognizedDate`, `OutsideMissionRange`, `DuplicateDate`, `SourceUnavailable`, `PartialFailure`, `Failed` |
+| Status | `DateResultStatus` | `Success`, `NoPhotos`, `InvalidDate`, `UnrecognizedDate`, `OutsideMissionRange`, `DuplicateDate`, `SourceUnavailable`, `PartialFailure`, `Failed`, `Cancelled` (not processed because the run was cancelled) |
 | Provider | string? | `MarsRoverPhotos` or `RawImageFeed` (which source served it) |
 | FallbackReason | string? | why the primary was bypassed |
 | PhotosAvailable | int | count the provider returned for the date (before selecting N) |
@@ -51,7 +51,7 @@ All types are immutable records in `MarsPhotos.Domain` unless noted. No persiste
 `Code` (from catalogue), `Message`, optional `Detail` (never contains secrets).
 
 ## Error-code catalogue (constants)
-`DATE_UNRECOGNIZED`, `DATE_INVALID`, `DATE_OUT_OF_RANGE`, `DATE_DUPLICATE`, `API_NO_PHOTOS`, `API_RATE_LIMITED`, `API_AUTH`, `API_UNAVAILABLE`, `API_BAD_RESPONSE`, `DL_FAILED`, `DL_REJECTED_URL`, `DL_TOO_LARGE`, `IO_ERROR`, `CONFIG_MISSING_KEY`, `INPUT_FILE_ERROR`.
+`DATE_UNRECOGNIZED`, `DATE_INVALID`, `DATE_OUT_OF_RANGE`, `DATE_DUPLICATE`, `API_NO_PHOTOS`, `API_RATE_LIMITED`, `API_AUTH`, `API_UNAVAILABLE`, `API_BAD_RESPONSE`, `DL_FAILED`, `DL_REJECTED_URL`, `DL_TOO_LARGE`, `IO_ERROR`, `CONFIG_MISSING_KEY`, `INPUT_FILE_ERROR`, `RUN_IN_PROGRESS`.
 
 ## Relationships and state
 - A `RunSummary` has one `DateResult` per `DateInputLine` (in order); a `DateResult` has 0..N `PhotoOutcome`.

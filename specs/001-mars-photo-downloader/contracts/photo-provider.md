@@ -11,7 +11,7 @@ ProviderResult =
   | NoPhotos()                                                  // valid empty answer, NO fallback
   | Unavailable(errorCode, message, retriable)                  // chain tries next provider
 ```
-Rules: never throws for expected failures; honors cancellation; never logs the key; returns photos sorted by `Id` (ordinal) and truncated to `maxPhotos` (`available` = count before truncation).
+Rules: never throws for expected failures; honors cancellation; never logs the key; returns photos sorted by `Id` (numeric when every id is a whole number, else ordinal) and truncated to `maxPhotos` (`available` = count before truncation).
 
 `ProviderChain` = [Primary, Fallback]. `Photos` / `NoPhotos` stops the chain; `Unavailable` moves on and records `FallbackReason`. Both unavailable → `DateResult.Status = SourceUnavailable` with `API_UNAVAILABLE`.
 

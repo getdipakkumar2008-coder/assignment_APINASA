@@ -186,7 +186,7 @@ The operator supplies the NASA credential and options (source choice, rover, pho
 
 **Output**
 - **FR-019**: The system MUST present, per input line: the original text, the normalized date, the supplying source, counts of downloaded / skipped / failed photos, and any validation or retrieval errors; plus overall totals. [FR-5.1–FR-5.3]
-- **FR-020**: The system MUST provide this result as an on-screen summary (guaranteed minimum) and SHOULD also provide it in a machine-readable form for other programs. [FR-5.2, FR-5.4]
+- **FR-020**: The system MUST provide this result as an on-screen summary (guaranteed minimum) and MUST also provide it in a machine-readable form for other programs and for the visual page. [FR-5.2, FR-5.4, Audit I2]
 - **FR-021**: The system MUST use stable error categories with clear remedies in plain language. [§9.2, NFR-11]
 - **FR-022**: The system MUST end with success status when the run completed, even if individual dates reported problems, and with failure status only for fatal conditions (no credential, unreadable input file, unwritable output location, unexpected crash). [FR-5.6, OQ-7]
 - **FR-023**: The system MUST offer a visual results page showing per-date status, counts, errors and thumbnails, with loading, empty and error states, usable by keyboard and assistive technology. [FR-5.5, FR-7.1–FR-7.6]
@@ -206,7 +206,7 @@ The operator supplies the NASA credential and options (source choice, rover, pho
 - **Parsed Date**: result of interpreting a line: valid / invalid / unrecognized, normalized date, reason.
 - **Rover Photo**: one image from a source: identifier, Mars day, camera, address, Earth date taken, rover.
 - **Photo Outcome**: result for one photo: downloaded / skipped / failed, stored location, reason.
-- **Date Result**: everything for one input line: date, supplying source, available count, photo outcomes, errors.
+- **Date Result**: everything for one input line: date, supplying source, available count, photo outcomes, errors, and a status (including `Cancelled` for dates not processed because the run was stopped).
 - **Run Summary**: all date results plus totals, rover, time and duration.
 - **Error Category**: stable named reasons (invalid date, unrecognized, no photos, rate limited, source unavailable, bad response, download failed, storage error).
 - **Photo Source**: a place photos can be obtained from; first choice and fallback.
@@ -231,7 +231,7 @@ The operator supplies the NASA credential and options (source choice, rover, pho
 Precision added to close audit gaps; none change approved business behavior. Reviewer to confirm.
 
 - **FR-029 (limits)**: Input files MUST be limited to 1000 non-blank lines and 200 characters per line; run requests supplied directly MUST be limited to 100 lines. Excess lines are reported as unrecognized with a limit message, not silently dropped. [CHK003, CHK004]
-- **FR-030 (ordering)**: "First N photos" means photos ordered ascending by the source's photo identifier (plain character order); fewer than N available is still a success, reporting how many were available. [CHK009, CHK021]
+- **FR-030 (ordering)**: "First N photos" means photos ordered ascending by the source's photo identifier: numerically when every identifier is a whole number, otherwise in plain character order; fewer than N available is still a success, reporting how many were available. [CHK009, CHK021]
 - **FR-031 (Mars day)**: The Mars day for an Earth date is computed from noon UTC of that date relative to the rover's landing instant, using the Mars day length of 88 775.244 seconds, rounded down. "Today" and all date comparisons use UTC. [CHK010, CHK034]
 - **FR-032 (mission range)**: Curiosity: 2012-08-06 to today. Opportunity: 2004-01-25 to 2018-06-10. Spirit: 2004-01-04 to 2010-03-22. Dates outside these inclusive ranges are "outside mission range". [CHK011]
 - **FR-033 (failure classes)**: *Temporary*: timeout, connection failure, HTTP 408, 429, and 5xx. *Permanent*: HTTP 400, 401, 403, 404 and non-data (web page) responses. Up to 3 retries, waits starting at 1 second and doubling up to 8 seconds with random jitter, within a total budget of 60 seconds per request. [CHK012, CHK042]
@@ -243,8 +243,9 @@ Precision added to close audit gaps; none change approved business behavior. Rev
 - **FR-039 (all invalid)**: A list with no valid dates ends normally with a full summary, no lookups and success status. [CHK035]
 - **FR-040 (observability)**: Each fallback decision MUST be logged as a warning with the date and reason; the rate-limit warning triggers when fewer than 100 requests remain in the provider's quota. [CHK043, CHK046]
 - **FR-041 (accessibility target)**: The visual page MUST meet WCAG 2.1 level AA for the elements it contains (status shown with text not only colour, visible focus, alternative text for photos, live announcement of run status). [CHK028, CHK047]
-- **FR-042 (cancel)**: The operator MUST be able to stop a run from the visual page; the page then shows results so far marked "cancelled". [CHK007]
+- **FR-042 (cancel)**: The operator MUST be able to stop a run from the visual page; the page then shows results so far, with dates not yet processed marked `Cancelled`. [CHK007]
 - **FR-043 (attribution)**: The README MUST credit NASA/JPL-Caltech as the image source. [CHK055]
+- **Terminology**: "photo source" means a place photos can be obtained from (the Mars Rover Photos service or NASA's raw-image feed); the implementation calls these "providers".
 - **Same-name photos across sources**: a photo is skipped when a file with its final name exists; switching sources between runs may therefore store a photo under a second name. Accepted limitation. [CHK033]
 
 ## Assumptions

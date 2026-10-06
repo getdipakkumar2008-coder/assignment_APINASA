@@ -26,8 +26,24 @@ paths:
           content:
             application/problem+json:
               schema: { $ref: '#/components/schemas/ProblemDetails' }
+        '409':
+          description: A run is already in progress (code RUN_IN_PROGRESS)
+          content:
+            application/problem+json:
+              schema: { $ref: '#/components/schemas/ProblemDetails' }
         '500':
           description: Fatal condition (missing key, unreadable input, unwritable output)
+          content:
+            application/problem+json:
+              schema: { $ref: '#/components/schemas/ProblemDetails' }
+  /api/runs/cancel:
+    post:
+      summary: Cancel the active run; unprocessed dates are marked Cancelled in the latest summary
+      responses:
+        '202':
+          description: Cancellation requested
+        '409':
+          description: No run in progress
           content:
             application/problem+json:
               schema: { $ref: '#/components/schemas/ProblemDetails' }
@@ -96,7 +112,7 @@ components:
         date: { type: string, format: date, nullable: true }
         status:
           type: string
-          enum: [Success, NoPhotos, InvalidDate, UnrecognizedDate, OutsideMissionRange, DuplicateDate, SourceUnavailable, PartialFailure, Failed]
+          enum: [Success, NoPhotos, InvalidDate, UnrecognizedDate, OutsideMissionRange, DuplicateDate, SourceUnavailable, PartialFailure, Failed, Cancelled]
         provider: { type: string, nullable: true, enum: [MarsRoverPhotos, RawImageFeed] }
         fallbackReason: { type: string, nullable: true }
         photosAvailable: { type: integer }

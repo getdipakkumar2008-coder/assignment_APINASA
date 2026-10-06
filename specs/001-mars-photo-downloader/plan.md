@@ -70,7 +70,10 @@ specs/001-mars-photo-downloader/
 │   └── cli.md                   # Console runner contract (args, output, exit codes)
 ├── checklists/
 │   └── requirements.md
-└── tasks.md             # Created by /speckit-tasks
+├── tasks.md             # Created by /speckit-tasks
+├── traceability.md      # Created during polish (T067)
+├── verification.md      # Manual/acceptance evidence (T063, final acceptance, polish)
+└── review.md            # Code and security review records
 ```
 
 ### Source Code (repository root)
@@ -109,7 +112,7 @@ AI_NOTES.md
 | D-3 | Primary provider treats 404, HTML/non-JSON, 5xx-after-retries as `Unavailable` → fallback; JSON `{"photos":[]}` is `NoPhotos`, **no** fallback | FR-009, FR-012 |
 | D-4 | Parsing: `DateOnly.TryParseExact` with a documented format array, invariant culture, two-digit-year → 2000–2099 | FR-003–FR-005 |
 | D-5 | Out-of-range dates (before landing or after today UTC) skip all lookups; reported `OutsideMissionRange` | FR-007 |
-| D-6 | Select first N after **sorting by stable photo id (ordinal)** for determinism; fallback prefers `full_res`, else `large` | FR-008 |
+| D-6 | Select first N after **sorting by stable photo id (numeric if all ids are whole numbers, else ordinal)** for determinism; fallback prefers `full_res`, else `large` | FR-008 |
 | D-7 | File name = sanitized provider stem + extension from an allow-list (`.jpg/.jpeg/.png`); write `.part` then `File.Move` | FR-014–FR-016 |
 | D-8 | Resilience via `Microsoft.Extensions.Http.Resilience` with custom retry predicate (no 4xx retry, honor `Retry-After`) | FR-012, FR-013 |
 | D-9 | `.env` loaded by a ~20-line dev-only loader in Infrastructure (no extra package); user-secrets also supported | FR-024, SEC-10 |
