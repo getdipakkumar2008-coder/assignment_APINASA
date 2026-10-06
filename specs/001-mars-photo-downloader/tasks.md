@@ -225,7 +225,7 @@ description: "Task list for Mars Rover Photo Downloader"
 - [X] T068 Run the code-reviewer agent over all of `src/` and `tests/` (checklist: `ai-code-review` skill); fix every CRITICAL/HIGH finding via tasks, log MEDIUM/LOW in `specs/001-mars-photo-downloader/review.md`. [Constitution XII, XI]
 - [X] T069 Security review: run `dotnet list package --vulnerable --include-transitive`, `npm audit --prefix src/marsphotos-ui`, `scripts/check-no-secrets.*`, confirm CORS/static-file/URL-policy tests green; record results in `specs/001-mars-photo-downloader/review.md`. [SEC-1..SEC-10, SC-007, AC-8]
 - [X] T070 [P] Performance/behaviour check: time a real run of the four sample lines (expect < 30 s) and record in `verification.md`; confirm memory-streaming (no full-image buffering) by code review note. [SC-008, NFR-5]
-- [ ] T071 Final acceptance: execute `quickstart.md` steps 1-7 on a clean clone state (fresh `photos/`), tick AC-1..AC-12 with evidence in `verification.md`, confirm second run downloads 0 (AC-5) and `git log` has ≥ 8 meaningful commits (AC-10). [AC-1–AC-12, SC-001–SC-010, SC-009 (README-only build and run, >= 8 commits)]
+- [X] T071 Final acceptance: execute `quickstart.md` steps 1-7 on a clean clone state (fresh `photos/`), tick AC-1..AC-12 with evidence in `verification.md`, confirm second run downloads 0 (AC-5) and `git log` has ≥ 8 meaningful commits (AC-10). [AC-1–AC-12, SC-001–SC-010, SC-009 (README-only build and run, >= 8 commits)]
 - [ ] T072 Run `/speckit-analyze`, then after all tasks `/speckit-converge`; repeat `implement` → `converge` until convergence. [Constitution §Workflow]
 
 **COMMIT**: `chore: add Dockerfile` · `docs: add README and AI_NOTES` · `docs: add traceability and review records`
