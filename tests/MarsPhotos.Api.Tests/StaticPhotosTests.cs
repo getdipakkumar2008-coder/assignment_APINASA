@@ -39,7 +39,7 @@ public class StaticPhotosTests
 
         var response = await client.GetAsync(path);
 
-        Assert.NotEqual(HttpStatusCode.OK, response.StatusCode);
+        Assert.True(response.StatusCode is HttpStatusCode.NotFound or HttpStatusCode.BadRequest, $"unexpected status {(int)response.StatusCode}");
         Assert.DoesNotContain("02/27/17", await response.Content.ReadAsStringAsync());
     }
 

@@ -277,6 +277,25 @@ public sealed class HttpPhotoDownloaderTests : IDisposable
             () => downloader.DownloadAsync(Photo(), Day, "123.jpg", cts.Token));
     }
 
+    [Fact]
+    public async Task Cancellation_while_the_body_is_downloading_propagates_and_leaves_no_file()
+    {
+        using var cts = new CancellationTokenSource();
+        var downloader = Build(Respond(() =>
+        {
+            var response = new HttpResponseMessage(HttpStatusCode.OK) { Content = new StreamContent(new StallingStream()) };
+            response.Content.Headers.ContentType = new MediaTypeHeaderValue("image/jpeg");
+            return response;
+        }));
+
+        var task = downloader.DownloadAsync(Photo(), Day, "123.jpg", cts.Token);
+        await Task.Delay(150); // the request is now stalled inside the body read
+        await cts.CancelAsync();
+
+        await Assert.ThrowsAnyAsync<OperationCanceledException>(() => task);
+        Assert.Empty(Files());
+    }
+
     private static HttpResponseMessage Redirect(string location)
     {
         var response = new HttpResponseMessage(HttpStatusCode.Found);

@@ -66,7 +66,9 @@ public class ProcessDatesUseCaseTests
 
         await useCase.RunAsync(Lines("02/27/17"));
 
-        Assert.Equal(["2017-02-27/.._weird_id.png"], store.Files);
+        var file = Assert.Single(store.Files);
+        Assert.StartsWith("2017-02-27/.._weird_id_", file); // lossy sanitizing adds a short hash of the original id
+        Assert.EndsWith(".png", file);
     }
 
     [Fact]

@@ -155,6 +155,8 @@ public class MarsRoverPhotosProviderTests
     [InlineData(HttpStatusCode.InternalServerError, ErrorCodes.ApiUnavailable)]
     [InlineData(HttpStatusCode.BadGateway, ErrorCodes.ApiUnavailable)]
     [InlineData(HttpStatusCode.BadRequest, ErrorCodes.ApiBadResponse)]
+    [InlineData(HttpStatusCode.MovedPermanently, ErrorCodes.ApiBadResponse)] // redirects are never followed: the key is in the URL
+    [InlineData(HttpStatusCode.Found, ErrorCodes.ApiBadResponse)]
     public async Task Http_failures_map_to_stable_error_codes(HttpStatusCode status, string expectedCode)
     {
         var (provider, _, _) = Build(RecordingHandler.Json("{}", status));

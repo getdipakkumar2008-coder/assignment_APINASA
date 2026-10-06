@@ -134,7 +134,8 @@ public sealed class ProcessDatesUseCase(
         RunOptions settings,
         CancellationToken ct)
     {
-        var selected = found.Selected.Take(count).ToList();
+        // A provider listing the same photo twice, or two ids mapping to one file, must not cause concurrent writes to one file.
+        var selected = found.Selected.DistinctBy(FileNameFor).Take(count).ToList();
         var outcomes = new PhotoOutcome[selected.Count];
         using var gate = new SemaphoreSlim(Math.Max(1, settings.MaxParallelDownloads));
 
@@ -166,7 +167,7 @@ public sealed class ProcessDatesUseCase(
 
     private async Task<PhotoOutcome> DownloadOneAsync(RoverPhoto photo, DateOnly date, CancellationToken ct)
     {
-        var fileName = FileNames.Sanitize(photo.Id) + FileNames.ExtensionFor(photo.ImageUrl);
+        var fileName = FileNameFor(photo);
         var relative = store.RelativePath(date, fileName);
         try
         {
@@ -198,6 +199,8 @@ public sealed class ProcessDatesUseCase(
             return Failed(photo, ErrorCodes.UnexpectedError, ex.GetType().Name);
         }
     }
+
+    private static string FileNameFor(RoverPhoto photo) => FileNames.StemFor(photo.Id) + FileNames.ExtensionFor(photo.ImageUrl);
 
     private PhotoOutcome Failed(RoverPhoto photo, string code, string rawMessage)
     {

@@ -21,4 +21,7 @@ public static class ErrorCodes
     public const string RunInProgress = "RUN_IN_PROGRESS";
     public const string UnexpectedError = "UNEXPECTED_ERROR";
     public const string NoRunInProgress = "NO_RUN_IN_PROGRESS";
+    public const string RunCancelled = "RUN_CANCELLED";
+    public const string ForbiddenOrigin = "FORBIDDEN_ORIGIN";
+    public const string UnsupportedMediaType = "UNSUPPORTED_MEDIA_TYPE";
 }

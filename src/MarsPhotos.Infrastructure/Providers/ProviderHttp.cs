@@ -57,6 +57,7 @@ internal static class ProviderHttp
     private static Outcome FromStatus(HttpStatusCode status) => (int)status switch
     {
         404 => Outcome.Fail(ErrorCodes.ApiUnavailable, "HTTP 404 (service not found)", false),
+        >= 300 and < 400 => Outcome.Fail(ErrorCodes.ApiBadResponse, $"HTTP {(int)status} (unexpected redirect; redirects are not followed)", false),
         401 or 403 => Outcome.Fail(ErrorCodes.ApiAuth, $"HTTP {(int)status} (the API key was rejected)", false),
         429 => Outcome.Fail(ErrorCodes.ApiRateLimited, "HTTP 429 (rate limit reached)", true),
         >= 500 => Outcome.Fail(ErrorCodes.ApiUnavailable, $"HTTP {(int)status} (server error)", true),

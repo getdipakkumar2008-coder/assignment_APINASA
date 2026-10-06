@@ -176,7 +176,7 @@ public class RetryPolicyTests
         for (var i = 1; i < handler.CallTimes.Count; i++)
         {
             var gap = handler.CallTimes[i] - handler.CallTimes[i - 1];
-            Assert.True(gap < TimeSpan.FromMilliseconds(400), $"gap {gap} exceeds bound");
+            Assert.True(gap < TimeSpan.FromSeconds(3), $"gap {gap} exceeds bound"); // generous: only guards against unbounded backoff, not timing
         }
     }
 

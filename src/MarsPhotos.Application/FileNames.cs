@@ -1,3 +1,4 @@
+using System.Security.Cryptography;
 using System.Text;
 
 namespace MarsPhotos.Application;
@@ -36,6 +37,24 @@ public static class FileNames
 
         var firstSegment = stem.Split('.')[0];
         return Reserved.Contains(firstSegment) ? "_" + stem : stem;
+    }
+
+    /// <summary>
+    /// File stem for a provider photo id. Ids that survive sanitizing unchanged keep their name; lossy ones
+    /// (special characters, over-long, reserved) get a short hash of the original id so two different ids can never
+    /// collide on one file name (review finding MEDIUM-3).
+    /// </summary>
+    public static string StemFor(string id)
+    {
+        var sanitized = Sanitize(id);
+        if (sanitized == id)
+        {
+            return sanitized;
+        }
+
+        var hash = Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(id)))[..8].ToLowerInvariant();
+        var head = sanitized.Length > MaxStemLength - 9 ? sanitized[..(MaxStemLength - 9)] : sanitized;
+        return head + "_" + hash;
     }
 
     /// <summary>Extension from the address path if it is on the allow-list, otherwise <c>.jpg</c>.</summary>

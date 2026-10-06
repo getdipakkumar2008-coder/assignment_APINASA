@@ -61,6 +61,7 @@ public sealed class FileSystemPhotoStore(IOptions<RunOptions> options) : IPhotoS
     {
         var finalPath = Resolve(date, fileName);
         var partPath = finalPath + ".part";
+        var ownsPart = false; // never delete a .part file that another writer owns (review finding MEDIUM-3)
 
         try
         {
@@ -76,6 +77,7 @@ public sealed class FileSystemPhotoStore(IOptions<RunOptions> options) : IPhotoS
             long total = 0;
             var destination = Destination(() => new FileStream(
                 partPath, FileMode.Create, FileAccess.Write, FileShare.None, BufferSize, useAsync: true));
+            ownsPart = true;
             await using (destination)
             {
                 var buffer = new byte[BufferSize];
@@ -104,18 +106,23 @@ public sealed class FileSystemPhotoStore(IOptions<RunOptions> options) : IPhotoS
 
             Destination(() =>
             {
-                if (File.Exists(finalPath))
+                if (File.Exists(finalPath) && new FileInfo(finalPath).Length > 0)
                 {
-                    File.Delete(finalPath); // only ever a zero-byte leftover (checked above)
+                    // someone else finished this photo while we were downloading: never overwrite a valid file
+                    throw new PhotoStoreException(ErrorCodes.IoError, $"'{RelativePath(date, fileName)}' already exists; refusing to overwrite it.");
                 }
 
-                File.Move(partPath, finalPath);
+                File.Move(partPath, finalPath, overwrite: true); // replaces only a zero-byte leftover, in one atomic step
             });
             return total;
         }
         catch
         {
-            TryDelete(partPath);
+            if (ownsPart)
+            {
+                TryDelete(partPath);
+            }
+
             throw;
         }
     }

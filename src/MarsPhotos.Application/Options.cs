@@ -4,7 +4,7 @@ public sealed class NasaOptions
 {
     public const string SectionName = "Nasa";
 
-    /// <summary>NASA API key. Supplied only via environment / .env / user-secrets; never logged.</summary>
+    /// <summary>NASA API key. Supplied only via the NASA__ApiKey environment variable or the git-ignored .env file; never logged.</summary>
     public string? ApiKey { get; set; }
 
     public string PrimaryBaseUrl { get; set; } = "https://api.nasa.gov/mars-photos/api/v1/";

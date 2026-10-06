@@ -8,7 +8,7 @@ public sealed class NasaOptionsValidator : IValidateOptions<NasaOptions>
 {
     public const string MissingKeyMessage =
         "The NASA API key is not configured. Set NASA__ApiKey in the environment, in a local .env file "
-        + "(copy .env.example), or with 'dotnet user-secrets'. Get a free key at https://api.nasa.gov.";
+        + "(copy .env.example). Get a free key at https://api.nasa.gov.";
 
     public ValidateOptionsResult Validate(string? name, NasaOptions options)
     {

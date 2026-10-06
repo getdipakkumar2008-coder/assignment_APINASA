@@ -89,15 +89,29 @@ public class DotEnvLoaderTests : IDisposable
     }
 
     [Fact]
-    public void Finds_the_file_in_a_parent_directory()
+    public void Finds_the_file_in_a_parent_directory_inside_the_repository()
     {
         var a = Key("PARENT");
+        Directory.CreateDirectory(Path.Combine(_dir, ".git")); // repository root marker
         File.WriteAllText(Path.Combine(_dir, ".env"), $"{a}=found\n");
         var child = Directory.CreateDirectory(Path.Combine(_dir, "sub", "deeper")).FullName;
 
         DotEnvLoader.Load(child);
 
         Assert.Equal("found", Environment.GetEnvironmentVariable(a));
+    }
+
+    [Fact]
+    public void Never_loads_an_env_file_from_above_the_repository_root()
+    {
+        var a = Key("ABOVE");
+        File.WriteAllText(Path.Combine(_dir, ".env"), $"{a}=stray\n"); // outside the repository
+        var repo = Directory.CreateDirectory(Path.Combine(_dir, "repo")).FullName;
+        Directory.CreateDirectory(Path.Combine(repo, ".git"));
+        var inside = Directory.CreateDirectory(Path.Combine(repo, "src", "app")).FullName;
+
+        Assert.Equal(0, DotEnvLoader.Load(inside));
+        Assert.Null(Environment.GetEnvironmentVariable(a));
     }
 
     [Fact]

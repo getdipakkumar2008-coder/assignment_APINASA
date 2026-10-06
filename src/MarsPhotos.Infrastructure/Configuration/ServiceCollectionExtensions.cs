@@ -20,7 +20,7 @@ public static class ServiceCollectionExtensions
 {
     /// <summary>
     /// Registers options (validated at startup, no demo-key fallback) and shared infrastructure.
-    /// The NASA key comes from <c>NASA__ApiKey</c> (environment / .env / user-secrets) only.
+    /// The NASA key comes from <c>NASA__ApiKey</c> (environment variable or git-ignored .env file) only.
     /// </summary>
     public static IServiceCollection AddMarsPhotos(this IServiceCollection services, IConfiguration configuration)
     {
@@ -65,7 +65,17 @@ public static class ServiceCollectionExtensions
         // Photo sources: the Mars Rover Photos service first, NASA's raw-image feed as automatic fallback (OQ-10).
         foreach (var clientName in new[] { MarsRoverPhotosProvider.HttpClientName, RawImageFeedProvider.HttpClientName })
         {
-            services.AddHttpClient(clientName, client => client.DefaultRequestHeaders.UserAgent.ParseAdd("MarsPhotoDownloader/1.0"))
+            services.AddHttpClient(clientName, client =>
+                {
+                    client.DefaultRequestHeaders.UserAgent.ParseAdd("MarsPhotoDownloader/1.0");
+                    client.MaxResponseContentBufferSize = 20 * 1024 * 1024; // bounds chunked bodies that have no Content-Length
+                })
+                // The API key is in the query string, so never follow a redirect (possibly to another host) with it.
+                .ConfigurePrimaryHttpMessageHandler(() => new SocketsHttpHandler
+                {
+                    AllowAutoRedirect = false,
+                    PooledConnectionLifetime = TimeSpan.FromMinutes(5),
+                })
                 .AddPhotoResilience(
                     run => TimeSpan.FromSeconds(run.LookupTimeoutSeconds),
                     run => TimeSpan.FromSeconds(run.TotalBudgetSeconds));

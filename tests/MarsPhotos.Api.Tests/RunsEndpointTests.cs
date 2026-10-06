@@ -129,7 +129,7 @@ public class RunsEndpointTests
     }
 
     [Fact]
-    public async Task Unexpected_errors_are_a_generic_500_that_never_leaks_details_or_the_key()
+    public async Task A_provider_bug_is_contained_per_date_and_never_leaks_details_or_the_key()
     {
         var provider = new StubProvider((_, _, _, _) => throw new InvalidOperationException($"boom api_key={TestKey.Value}"));
         using var factory = new ApiFactory(provider);

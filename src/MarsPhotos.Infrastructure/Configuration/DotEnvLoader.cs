@@ -14,6 +14,11 @@ public static class DotEnvLoader
         return path is null ? 0 : LoadFile(path);
     }
 
+    /// <summary>
+    /// Looks for <c>.env</c> from <paramref name="startDirectory"/> upward, but never above the repository / solution root.
+    /// Without such a marker only the start directory is checked, so a stray <c>/.env</c> or <c>C:\.env</c> can never be loaded
+    /// (for example inside a container).
+    /// </summary>
     public static string? Find(string startDirectory)
     {
         var dir = new DirectoryInfo(startDirectory);
@@ -25,15 +30,33 @@ public static class DotEnvLoader
                 return candidate;
             }
 
-            if (Directory.Exists(Path.Combine(dir.FullName, ".git")) || File.Exists(Path.Combine(dir.FullName, ".git")))
+            if (IsProjectRoot(dir))
             {
-                return null; // repository root reached without an .env
+                return null;
             }
 
-            dir = dir.Parent;
+            dir = HasProjectRootAbove(dir) ? dir.Parent : null;
         }
 
         return null;
+    }
+
+    private static bool IsProjectRoot(DirectoryInfo dir) =>
+        Directory.Exists(Path.Combine(dir.FullName, ".git"))
+        || File.Exists(Path.Combine(dir.FullName, ".git"))
+        || File.Exists(Path.Combine(dir.FullName, "MarsPhotos.sln"));
+
+    private static bool HasProjectRootAbove(DirectoryInfo dir)
+    {
+        for (var parent = dir.Parent; parent is not null; parent = parent.Parent)
+        {
+            if (IsProjectRoot(parent))
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public static int LoadFile(string path)
