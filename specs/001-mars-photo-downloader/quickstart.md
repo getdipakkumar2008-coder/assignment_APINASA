@@ -6,7 +6,7 @@ Prerequisites: .NET 8 SDK (8.0.204+), Node 20+ with Angular CLI, a NASA key. Com
 ```bash
 cp .env.example .env          # then edit .env: NASA__ApiKey=<your key>
 ```
-`.env` is gitignored. Alternative: `dotnet user-secrets set Nasa:ApiKey <key> --project src/MarsPhotos.Api`.
+`.env` is gitignored. Alternatively set the `NASA__ApiKey` environment variable (for example from a secret store or CI).
 
 ## 2. Build and test
 ```bash

@@ -42,7 +42,7 @@ public static class CliApp
           --json           print the run summary as JSON on stdout
           --help           show this help
 
-        The NASA API key is read from NASA__ApiKey (environment, .env file or user-secrets).
+        The NASA API key is read from NASA__ApiKey (process environment or the git-ignored .env file).
         Exit codes: 0 completed, 1 fatal error, 2 unexpected error, 130 cancelled.
         """;
 

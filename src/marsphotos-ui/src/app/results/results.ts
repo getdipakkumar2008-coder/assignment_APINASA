@@ -1,5 +1,6 @@
-import { Component, input } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
 import { DateResult, DateResultStatus, PhotoOutcome, RunSummary } from '../models/run-summary';
+import { API_BASE_URL } from '../services/runs.service';
 
 interface StatusView {
   label: string;
@@ -27,6 +28,13 @@ const STATUS: Record<DateResultStatus, StatusView> = {
 })
 export class Results {
   readonly summary = input.required<RunSummary>();
+
+  private readonly base = inject(API_BASE_URL);
+
+  /** Photo links are served by the API, so they follow the same base URL as the API calls (empty behind the dev proxy). */
+  protected photoUrl(photo: PhotoOutcome): string | null {
+    return photo.url === null ? null : `${this.base}${photo.url}`;
+  }
 
   protected label(status: DateResultStatus): string {
     return STATUS[status].label;

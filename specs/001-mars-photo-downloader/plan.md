@@ -41,7 +41,7 @@ Approach: a small layered .NET 8 solution (Domain / Application / Infrastructure
 | I Spec-first & traceability | Spec, plan, tasks precede code; traceability matrix in `traceability.md` (created in tasks phase); hook blocks `src/` edits until artifacts exist. ✅ |
 | II Simplicity | 4 `src` .NET projects + CLI + SPA, no DB/queue/cache/microservices. Provider fallback is a real requirement (OQ-10). ✅ |
 | III Clean architecture / SOLID / DI | Domain ← Application (ports) ← Infrastructure; hosts compose. Constructor DI only. ✅ |
-| IV Secure configuration | `NASA__ApiKey` via env / gitignored `.env` / user-secrets, `IOptions` + `ValidateOnStart`; key redacted in logs; never in Angular. ✅ |
+| IV Secure configuration | `NASA__ApiKey` via env / gitignored `.env`, `IOptions` + `ValidateOnStart`; key redacted in logs; never in Angular. ✅ |
 | V Input validation | `TryParseExact` + invariant culture; URL host allow-list; sanitized file stems; size cap. ✅ |
 | VI Async | Async I/O end-to-end, `CancellationToken` everywhere, `IHttpClientFactory`, streamed downloads. ✅ |
 | VII Resilience | Retry/backoff+jitter for 429/5xx/timeout/network, honor `Retry-After`; no retry on 4xx; per-item isolation. ✅ |
@@ -115,7 +115,7 @@ AI_NOTES.md
 | D-6 | Select first N after **sorting by stable photo id (numeric if all ids are whole numbers, else ordinal)** for determinism; fallback prefers `full_res`, else `large` | FR-008 |
 | D-7 | File name = sanitized provider stem + extension from an allow-list (`.jpg/.jpeg/.png`); write `.part` then `File.Move` | FR-014–FR-016 |
 | D-8 | Resilience via `Microsoft.Extensions.Http.Resilience` with custom retry predicate (no 4xx retry, honor `Retry-After`) | FR-012, FR-013 |
-| D-9 | `.env` loaded by a ~20-line dev-only loader in Infrastructure (no extra package); user-secrets also supported | FR-024, SEC-10 |
+| D-9 | `.env` loaded by a ~20-line dev-only loader in Infrastructure (no extra package); a secret store or CI can feed the environment variable instead (.NET user-secrets were not wired up) | FR-024, SEC-10 |
 | D-10 | Dates processed sequentially; ≤3 concurrent downloads per date | FR-013, NFR-6 |
 | D-11 | API host keeps the last `RunSummary` in memory; photos served as static files from the photos root only | FR-020, FR-023 |
 | D-12 | Exit code `0` when the run completes (even with per-date problems), `1` fatal config/IO, `2` unexpected crash | FR-022, OQ-7 |

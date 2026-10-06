@@ -8,7 +8,18 @@ public sealed class RunCoordinator
     private readonly object _sync = new();
     private CancellationTokenSource? _active;
 
-    public RunSummary? Latest { get; private set; }
+    private RunSummary? _latest;
+
+    public RunSummary? Latest
+    {
+        get
+        {
+            lock (_sync)
+            {
+                return _latest;
+            }
+        }
+    }
 
     public bool IsRunning
     {
@@ -39,7 +50,11 @@ public sealed class RunCoordinator
         try
         {
             var summary = await work(cts.Token);
-            Latest = summary;
+            lock (_sync)
+            {
+                _latest = summary;
+            }
+
             return summary;
         }
         finally

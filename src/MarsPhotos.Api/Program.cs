@@ -40,6 +40,23 @@ Directory.CreateDirectory(photosRoot);
 
 app.UseExceptionHandler();
 app.UseCors("ui");
+
+// CORS only stops a page from *reading* a response; it does not stop another site's page from *sending* a simple POST that
+// starts or cancels a run. Reject state-changing requests that carry a foreign Origin (review finding MEDIUM-1).
+app.Use(async (context, next) =>
+{
+    var method = context.Request.Method;
+    var isSafe = HttpMethods.IsGet(method) || HttpMethods.IsHead(method) || HttpMethods.IsOptions(method);
+    if (!isSafe
+        && context.Request.Headers.TryGetValue("Origin", out var origin)
+        && !string.Equals(origin.ToString(), UiOrigin, StringComparison.OrdinalIgnoreCase))
+    {
+        await Problem(403, "Forbidden origin", "Requests from this origin are not allowed.", ErrorCodes.ForbiddenOrigin).ExecuteAsync(context);
+        return;
+    }
+
+    await next();
+});
 app.UseStaticFiles(new StaticFileOptions
 {
     FileProvider = new PhysicalFileProvider(photosRoot),
@@ -80,6 +97,11 @@ app.MapPost("/api/runs", async (
     RunRequest? body = null;
     if (request.ContentLength is > 0 || request.Headers.ContainsKey("Transfer-Encoding"))
     {
+        if (!request.HasJsonContentType())
+        {
+            return Problem(415, "Unsupported media type", "The request body must be application/json.", ErrorCodes.UnsupportedMediaType);
+        }
+
         try
         {
             body = await request.ReadFromJsonAsync<RunRequest>(RunSummaryJson.Options, cancellationToken);
@@ -115,6 +137,11 @@ app.MapPost("/api/runs", async (
     catch (FatalRunException ex)
     {
         return Problem(500, "The run could not be completed", Redaction.RedactApiKey(ex.Message), ex.ErrorCode);
+    }
+    catch (OperationCanceledException) when (!cancellationToken.IsCancellationRequested)
+    {
+        // Cancel arrived before the run reached the date loop (for example while the dates file was being read).
+        return Problem(409, "Run cancelled", "The run was cancelled before any date was processed.", ErrorCodes.RunCancelled);
     }
 });
 

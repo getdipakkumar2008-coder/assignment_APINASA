@@ -29,9 +29,9 @@ Opt-in live test: `RUN_LIVE_TESTS=1 dotnet test --filter Category=Live` passes (
 
 | Suite | Result |
 |---|---|
-| `dotnet test` unit tests (`MarsPhotos.Tests`) | 333 passed, 1 skipped (the opt-in live test) |
-| `dotnet test` API tests (`MarsPhotos.Api.Tests`) | 31 passed |
-| Angular tests (`npm test`, Vitest + jsdom) | 41 passed, including 6 axe-core accessibility scenarios |
+| `dotnet test` unit tests (`MarsPhotos.Tests`) | 347 passed, 1 skipped (the opt-in live test) |
+| `dotnet test` API tests (`MarsPhotos.Api.Tests`) | 44 passed |
+| Angular tests (`npm test`, Vitest + jsdom) | 42 passed, including 6 axe-core accessibility scenarios |
 | `npm audit --omit=dev` | 0 vulnerabilities |
 | Negative checks | Removing image alt text makes the axe test fail with `image-alt (critical)`; planting a fake key in the repo makes `RepoSecretScanTests` fail and was then removed |
 

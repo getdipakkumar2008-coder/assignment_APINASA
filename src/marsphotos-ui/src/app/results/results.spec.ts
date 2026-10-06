@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RunSummary } from '../models/run-summary';
 import { invalidResult, mixedSummary, noPhotosResult, outsideResult, partialResult, successResult, summaryOf } from '../testing/fixtures';
+import { API_BASE_URL } from '../services/runs.service';
 import { Results } from './results';
 
 describe('Results', () => {
@@ -137,6 +138,14 @@ describe('Results', () => {
     expect(link.getAttribute('href')).toBe('/photos/2017-02-27/a1.jpg');
     expect(link.querySelector('img')?.getAttribute('alt')).toBeTruthy();
     expect(link.getAttribute('rel')).toContain('noopener');
+  });
+
+  it('prefixes photo links and thumbnails with the configured API base URL', async () => {
+    TestBed.overrideProvider(API_BASE_URL, { useValue: 'https://api.example.test' });
+    await render(summaryOf(successResult));
+
+    expect(card(0).querySelector('img')?.getAttribute('src')).toBe('https://api.example.test/photos/2017-02-27/a1.jpg');
+    expect(card(0).querySelector('a')?.getAttribute('href')).toBe('https://api.example.test/photos/2017-02-27/a1.jpg');
   });
 
   it('uses a list of articles so assistive technology can navigate the results', async () => {
