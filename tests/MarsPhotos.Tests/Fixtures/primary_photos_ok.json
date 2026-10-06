@@ -1,0 +1,158 @@
+{
+ "photos": [
+  {
+   "id": 102693,
+   "sol": 1621,
+   "camera": {
+    "id": 20,
+    "name": "FHAZ",
+    "rover_id": 5,
+    "full_name": "FHAZ camera"
+   },
+   "img_src": "http://mars.jpl.nasa.gov/msl-raw-images/proj/msl/redops/ods/surface/sol/01621/opgs/edr/fcam/FHAZ_102693.JPG",
+   "earth_date": "2017-02-27",
+   "rover": {
+    "id": 5,
+    "name": "Curiosity",
+    "landing_date": "2012-08-06",
+    "launch_date": "2011-11-26",
+    "status": "active"
+   },
+   "extra_unknown_field": {
+    "x": 1
+   }
+  },
+  {
+   "id": 99999,
+   "sol": 1621,
+   "camera": {
+    "id": 21,
+    "name": "RHAZ",
+    "rover_id": 5,
+    "full_name": "RHAZ camera"
+   },
+   "img_src": "http://mars.jpl.nasa.gov/msl-raw-images/proj/msl/redops/ods/surface/sol/01621/opgs/edr/fcam/RHAZ_99999.JPG",
+   "earth_date": "2017-02-27",
+   "rover": {
+    "id": 5,
+    "name": "Curiosity",
+    "landing_date": "2012-08-06",
+    "launch_date": "2011-11-26",
+    "status": "active"
+   },
+   "extra_unknown_field": {
+    "x": 1
+   }
+  },
+  {
+   "id": 100000,
+   "sol": 1621,
+   "camera": {
+    "id": 22,
+    "name": "MAST",
+    "rover_id": 5,
+    "full_name": "MAST camera"
+   },
+   "img_src": "http://mars.jpl.nasa.gov/msl-raw-images/proj/msl/redops/ods/surface/sol/01621/opgs/edr/fcam/MAST_100000.JPG",
+   "earth_date": "2017-02-27",
+   "rover": {
+    "id": 5,
+    "name": "Curiosity",
+    "landing_date": "2012-08-06",
+    "launch_date": "2011-11-26",
+    "status": "active"
+   },
+   "extra_unknown_field": {
+    "x": 1
+   }
+  },
+  {
+   "id": 7,
+   "sol": 1621,
+   "camera": {
+    "id": 23,
+    "name": "CHEMCAM",
+    "rover_id": 5,
+    "full_name": "CHEMCAM camera"
+   },
+   "img_src": "http://mars.jpl.nasa.gov/msl-raw-images/proj/msl/redops/ods/surface/sol/01621/opgs/edr/fcam/CHEMCAM_7.JPG",
+   "earth_date": "2017-02-27",
+   "rover": {
+    "id": 5,
+    "name": "Curiosity",
+    "landing_date": "2012-08-06",
+    "launch_date": "2011-11-26",
+    "status": "active"
+   },
+   "extra_unknown_field": {
+    "x": 1
+   }
+  },
+  {
+   "id": 102694,
+   "sol": 1621,
+   "camera": {
+    "id": 24,
+    "name": "NAVCAM",
+    "rover_id": 5,
+    "full_name": "NAVCAM camera"
+   },
+   "img_src": "http://mars.jpl.nasa.gov/msl-raw-images/proj/msl/redops/ods/surface/sol/01621/opgs/edr/fcam/NAVCAM_102694.JPG",
+   "earth_date": "2017-02-27",
+   "rover": {
+    "id": 5,
+    "name": "Curiosity",
+    "landing_date": "2012-08-06",
+    "launch_date": "2011-11-26",
+    "status": "active"
+   },
+   "extra_unknown_field": {
+    "x": 1
+   }
+  },
+  {
+   "id": 102695,
+   "sol": 1621,
+   "camera": {
+    "id": 25,
+    "name": "MAHLI",
+    "rover_id": 5,
+    "full_name": "MAHLI camera"
+   },
+   "img_src": "http://mars.jpl.nasa.gov/msl-raw-images/proj/msl/redops/ods/surface/sol/01621/opgs/edr/fcam/MAHLI_102695.JPG",
+   "earth_date": "2017-02-27",
+   "rover": {
+    "id": 5,
+    "name": "Curiosity",
+    "landing_date": "2012-08-06",
+    "launch_date": "2011-11-26",
+    "status": "active"
+   },
+   "extra_unknown_field": {
+    "x": 1
+   }
+  },
+  {
+   "id": 55,
+   "sol": 1621,
+   "camera": {
+    "id": 26,
+    "name": "MARDI",
+    "rover_id": 5,
+    "full_name": "MARDI camera"
+   },
+   "img_src": "http://mars.jpl.nasa.gov/msl-raw-images/proj/msl/redops/ods/surface/sol/01621/opgs/edr/fcam/MARDI_55.JPG",
+   "earth_date": "2017-02-27",
+   "rover": {
+    "id": 5,
+    "name": "Curiosity",
+    "landing_date": "2012-08-06",
+    "launch_date": "2011-11-26",
+    "status": "active"
+   },
+   "extra_unknown_field": {
+    "x": 1
+   }
+  }
+ ]
+}

@@ -1,0 +1,344 @@
+{
+ "sol": 1398,
+ "num_images": 156,
+ "type": "msl-images-1.1",
+ "mission": "msl",
+ "images": [
+  {
+   "sol": 1398,
+   "attitude": "UNK",
+   "image_files": {
+    "medium": "http://mars.nasa.gov/msl-raw-images/msss/01398/mrdi/1398MD0005300000200580E01_DXXX-br.jpg",
+    "small": "http://mars.nasa.gov/msl-raw-images/msss/01398/mrdi/1398MD0005300000200580E01_DXXX-thm.jpg",
+    "full_res": "http://mars.jpl.nasa.gov/msl-raw-images/msss/01398/mrdi/1398MD0005300000200580E01_DXXX.jpg",
+    "large": "http://mars.nasa.gov/msl-raw-images/msss/01398/mrdi/1398MD0005300000200580E01_DXXX-br2.jpg"
+   },
+   "imageid": "1398MD0005300000200580E01_DXXX",
+   "camera": {
+    "filter_name": "UNK",
+    "camera_model_component_list": "UNK",
+    "instrument": "MARDI",
+    "camera_model_type": "UNK"
+   },
+   "caption": "NASA's Mars Curiosity rover acquired this image using its onboard Mars Descent Imager (MARDI). \n\nThis image was acquired on Jul. 12, 2016 (Sol 1398).",
+   "sample_type": "full",
+   "date_taken_mars": "UNK",
+   "credit": "NASA/JPL-Caltech/MSSS",
+   "date_taken_utc": "2016-07-12T18:28:10",
+   "json_link": "https://mars.nasa.gov/rss/api/?feed=raw_images&category=msl&feedtype=json&id=1398MD0005300000200580E01_DXXX",
+   "link": "https://mars.nasa.gov/msl/multimedia/raw-images/1398MD0005300000200580E01_DXXX",
+   "drive": "",
+   "title": "Mars Curiosity Sol 1398: Mars Descent Imager (MARDI)",
+   "site": "",
+   "date_received": "2016-07-13T20:00:06Z"
+  },
+  {
+   "sol": 1398,
+   "attitude": "UNK",
+   "image_files": {
+    "medium": "http://mars.nasa.gov/msl-raw-images/msss/01398/mcam/1398ML0068400040601677C00_DXXX-br.jpg",
+    "small": "http://mars.nasa.gov/msl-raw-images/msss/01398/mcam/1398ML0068400040601677C00_DXXX-thm.jpg",
+    "full_res": "http://mars.jpl.nasa.gov/msl-raw-images/msss/01398/mcam/1398ML0068400040601677C00_DXXX.jpg",
+    "large": "http://mars.nasa.gov/msl-raw-images/msss/01398/mcam/1398ML0068400040601677C00_DXXX-br2.jpg"
+   },
+   "imageid": "1398ML0068400040601677C00_DXXX",
+   "camera": {
+    "filter_name": "UNK",
+    "camera_model_component_list": "UNK",
+    "instrument": "MAST_LEFT",
+    "camera_model_type": "UNK"
+   },
+   "caption": "NASA's Mars Curiosity rover acquired this image using its onboard Left Mast Camera (MAHLI). \n\nThis image was acquired on Jul. 12, 2016 (Sol 1398).",
+   "sample_type": "subframe",
+   "date_taken_mars": "UNK",
+   "credit": "NASA/JPL-Caltech/MSSS",
+   "date_taken_utc": "2016-07-12T12:15:51",
+   "json_link": "https://mars.nasa.gov/rss/api/?feed=raw_images&category=msl&feedtype=json&id=1398ML0068400040601677C00_DXXX",
+   "link": "https://mars.nasa.gov/msl/multimedia/raw-images/1398ML0068400040601677C00_DXXX",
+   "drive": "",
+   "title": "Mars Curiosity Sol 1398: Left Mast Camera (MAHLI)",
+   "site": "",
+   "date_received": "2017-01-14T03:00:18Z"
+  },
+  {
+   "sol": 1398,
+   "attitude": "UNK",
+   "image_files": {
+    "medium": "http://mars.nasa.gov/msl-raw-images/msss/01398/mcam/1398ML0068380070601664C00_DXXX-br.jpg",
+    "small": "http://mars.nasa.gov/msl-raw-images/msss/01398/mcam/1398ML0068380070601664C00_DXXX-thm.jpg",
+    "full_res": "http://mars.jpl.nasa.gov/msl-raw-images/msss/01398/mcam/1398ML0068380070601664C00_DXXX.jpg",
+    "large": "http://mars.nasa.gov/msl-raw-images/msss/01398/mcam/1398ML0068380070601664C00_DXXX-br2.jpg"
+   },
+   "imageid": "1398ML0068380070601664C00_DXXX",
+   "camera": {
+    "filter_name": "UNK",
+    "camera_model_component_list": "UNK",
+    "instrument": "MAST_LEFT",
+    "camera_model_type": "UNK"
+   },
+   "caption": "NASA's Mars Curiosity rover acquired this image using its onboard Left Mast Camera (MAHLI). \n\nThis image was acquired on Jul. 12, 2016 (Sol 1398).",
+   "sample_type": "subframe",
+   "date_taken_mars": "UNK",
+   "credit": "NASA/JPL-Caltech/MSSS",
+   "date_taken_utc": "2016-07-12T12:10:28",
+   "json_link": "https://mars.nasa.gov/rss/api/?feed=raw_images&category=msl&feedtype=json&id=1398ML0068380070601664C00_DXXX",
+   "link": "https://mars.nasa.gov/msl/multimedia/raw-images/1398ML0068380070601664C00_DXXX",
+   "drive": "",
+   "title": "Mars Curiosity Sol 1398: Left Mast Camera (MAHLI)",
+   "site": "",
+   "date_received": "2017-01-14T03:00:09Z"
+  },
+  {
+   "sol": 1398,
+   "attitude": "UNK",
+   "image_files": {
+    "medium": "http://mars.nasa.gov/msl-raw-images/msss/01398/mcam/1398ML0068390050601671E01_DXXX-br.jpg",
+    "small": "http://mars.nasa.gov/msl-raw-images/msss/01398/mcam/1398ML0068390050601671E01_DXXX-thm.jpg",
+    "full_res": "http://mars.jpl.nasa.gov/msl-raw-images/msss/01398/mcam/1398ML0068390050601671E01_DXXX.jpg",
+    "large": "http://mars.nasa.gov/msl-raw-images/msss/01398/mcam/1398ML0068390050601671E01_DXXX-br2.jpg"
+   },
+   "imageid": "1398ML0068390050601671E01_DXXX",
+   "camera": {
+    "filter_name": "UNK",
+    "camera_model_component_list": "UNK",
+    "instrument": "MAST_LEFT",
+    "camera_model_type": "UNK"
+   },
+   "caption": "NASA's Mars Curiosity rover acquired this image using its onboard Left Mast Camera (MAHLI). \n\nThis image was acquired on Jul. 12, 2016 (Sol 1398).",
+   "sample_type": "subframe",
+   "date_taken_mars": "UNK",
+   "credit": "NASA/JPL-Caltech/MSSS",
+   "date_taken_utc": "2016-07-12T12:13:20",
+   "json_link": "https://mars.nasa.gov/rss/api/?feed=raw_images&category=msl&feedtype=json&id=1398ML0068390050601671E01_DXXX",
+   "link": "https://mars.nasa.gov/msl/multimedia/raw-images/1398ML0068390050601671E01_DXXX",
+   "drive": "",
+   "title": "Mars Curiosity Sol 1398: Left Mast Camera (MAHLI)",
+   "site": "",
+   "date_received": "2016-07-14T04:30:24Z"
+  },
+  {
+   "sol": 1398,
+   "attitude": "UNK",
+   "image_files": {
+    "medium": "http://mars.nasa.gov/msl-raw-images/msss/01398/mcam/1398ML0068380050601662E01_DXXX-br.jpg",
+    "small": "http://mars.nasa.gov/msl-raw-images/msss/01398/mcam/1398ML0068380050601662E01_DXXX-thm.jpg",
+    "full_res": "http://mars.jpl.nasa.gov/msl-raw-images/msss/01398/mcam/1398ML0068380050601662E01_DXXX.jpg",
+    "large": "http://mars.nasa.gov/msl-raw-images/msss/01398/mcam/1398ML0068380050601662E01_DXXX-br2.jpg"
+   },
+   "imageid": "1398ML0068380050601662E01_DXXX",
+   "camera": {
+    "filter_name": "UNK",
+    "camera_model_component_list": "UNK",
+    "instrument": "MAST_LEFT",
+    "camera_model_type": "UNK"
+   },
+   "caption": "NASA's Mars Curiosity rover acquired this image using its onboard Left Mast Camera (MAHLI). \n\nThis image was acquired on Jul. 12, 2016 (Sol 1398).",
+   "sample_type": "subframe",
+   "date_taken_mars": "UNK",
+   "credit": "NASA/JPL-Caltech/MSSS",
+   "date_taken_utc": "2016-07-12T12:09:38",
+   "json_link": "https://mars.nasa.gov/rss/api/?feed=raw_images&category=msl&feedtype=json&id=1398ML0068380050601662E01_DXXX",
+   "link": "https://mars.nasa.gov/msl/multimedia/raw-images/1398ML0068380050601662E01_DXXX",
+   "drive": "",
+   "title": "Mars Curiosity Sol 1398: Left Mast Camera (MAHLI)",
+   "site": "",
+   "date_received": "2016-07-14T04:30:13Z"
+  },
+  {
+   "sol": 1398,
+   "attitude": "UNK",
+   "image_files": {
+    "medium": "http://mars.nasa.gov/msl-raw-images/msss/01398/mcam/1398MR0068400010701942C00_DXXX-br.jpg",
+    "small": "http://mars.nasa.gov/msl-raw-images/msss/01398/mcam/1398MR0068400010701942C00_DXXX-thm.jpg",
+    "full_res": "http://mars.jpl.nasa.gov/msl-raw-images/msss/01398/mcam/1398MR0068400010701942C00_DXXX.jpg",
+    "large": "http://mars.nasa.gov/msl-raw-images/msss/01398/mcam/1398MR0068400010701942C00_DXXX-br2.jpg"
+   },
+   "imageid": "1398MR0068400010701942C00_DXXX",
+   "camera": {
+    "filter_name": "UNK",
+    "camera_model_component_list": "UNK",
+    "instrument": "MAST_RIGHT",
+    "camera_model_type": "UNK"
+   },
+   "caption": "NASA's Mars Curiosity rover acquired this image using its onboard Right Mast Camera (MAHLI). \n\nThis image was acquired on Jul. 12, 2016 (Sol 1398).",
+   "sample_type": "subframe",
+   "date_taken_mars": "UNK",
+   "credit": "NASA/JPL-Caltech/MSSS",
+   "date_taken_utc": "2016-07-12T12:14:38",
+   "json_link": "https://mars.nasa.gov/rss/api/?feed=raw_images&category=msl&feedtype=json&id=1398MR0068400010701942C00_DXXX",
+   "link": "https://mars.nasa.gov/msl/multimedia/raw-images/1398MR0068400010701942C00_DXXX",
+   "drive": "",
+   "title": "Mars Curiosity Sol 1398: Right Mast Camera (MAHLI)",
+   "site": "",
+   "date_received": "2017-01-14T03:00:45Z"
+  },
+  {
+   "sol": 1398,
+   "attitude": "UNK",
+   "image_files": {
+    "medium": "http://mars.nasa.gov/msl-raw-images/msss/01398/mcam/1398MR0068380050701930C00_DXXX-br.jpg",
+    "small": "http://mars.nasa.gov/msl-raw-images/msss/01398/mcam/1398MR0068380050701930C00_DXXX-thm.jpg",
+    "full_res": "http://mars.jpl.nasa.gov/msl-raw-images/msss/01398/mcam/1398MR0068380050701930C00_DXXX.jpg",
+    "large": "http://mars.nasa.gov/msl-raw-images/msss/01398/mcam/1398MR0068380050701930C00_DXXX-br2.jpg"
+   },
+   "imageid": "1398MR0068380050701930C00_DXXX",
+   "camera": {
+    "filter_name": "UNK",
+    "camera_model_component_list": "UNK",
+    "instrument": "MAST_RIGHT",
+    "camera_model_type": "UNK"
+   },
+   "caption": "NASA's Mars Curiosity rover acquired this image using its onboard Right Mast Camera (MAHLI). \n\nThis image was acquired on Jul. 12, 2016 (Sol 1398).",
+   "sample_type": "subframe",
+   "date_taken_mars": "UNK",
+   "credit": "NASA/JPL-Caltech/MSSS",
+   "date_taken_utc": "2016-07-12T12:09:45",
+   "json_link": "https://mars.nasa.gov/rss/api/?feed=raw_images&category=msl&feedtype=json&id=1398MR0068380050701930C00_DXXX",
+   "link": "https://mars.nasa.gov/msl/multimedia/raw-images/1398MR0068380050701930C00_DXXX",
+   "drive": "",
+   "title": "Mars Curiosity Sol 1398: Right Mast Camera (MAHLI)",
+   "site": "",
+   "date_received": "2017-01-13T07:30:16Z"
+  },
+  {
+   "sol": 1398,
+   "attitude": "UNK",
+   "image_files": {
+    "medium": "http://mars.nasa.gov/msl-raw-images/msss/01398/mcam/1398MR0068390060701940E01_DXXX-br.jpg",
+    "small": "http://mars.nasa.gov/msl-raw-images/msss/01398/mcam/1398MR0068390060701940E01_DXXX-thm.jpg",
+    "full_res": "http://mars.jpl.nasa.gov/msl-raw-images/msss/01398/mcam/1398MR0068390060701940E01_DXXX.jpg",
+    "large": "http://mars.nasa.gov/msl-raw-images/msss/01398/mcam/1398MR0068390060701940E01_DXXX-br2.jpg"
+   },
+   "imageid": "1398MR0068390060701940E01_DXXX",
+   "camera": {
+    "filter_name": "UNK",
+    "camera_model_component_list": "UNK",
+    "instrument": "MAST_RIGHT",
+    "camera_model_type": "UNK"
+   },
+   "caption": "NASA's Mars Curiosity rover acquired this image using its onboard Right Mast Camera (MAHLI). \n\nThis image was acquired on Jul. 12, 2016 (Sol 1398).",
+   "sample_type": "subframe",
+   "date_taken_mars": "UNK",
+   "credit": "NASA/JPL-Caltech/MSSS",
+   "date_taken_utc": "2016-07-12T12:13:43",
+   "json_link": "https://mars.nasa.gov/rss/api/?feed=raw_images&category=msl&feedtype=json&id=1398MR0068390060701940E01_DXXX",
+   "link": "https://mars.nasa.gov/msl/multimedia/raw-images/1398MR0068390060701940E01_DXXX",
+   "drive": "",
+   "title": "Mars Curiosity Sol 1398: Right Mast Camera (MAHLI)",
+   "site": "",
+   "date_received": "2016-07-14T04:30:48Z"
+  },
+  {
+   "sol": 1398,
+   "attitude": "UNK",
+   "image_files": {
+    "medium": "http://mars.nasa.gov/msl-raw-images/msss/01398/mcam/1398MR0068380030701928E01_DXXX-br.jpg",
+    "small": "http://mars.nasa.gov/msl-raw-images/msss/01398/mcam/1398MR0068380030701928E01_DXXX-thm.jpg",
+    "full_res": "http://mars.jpl.nasa.gov/msl-raw-images/msss/01398/mcam/1398MR0068380030701928E01_DXXX.jpg",
+    "large": "http://mars.nasa.gov/msl-raw-images/msss/01398/mcam/1398MR0068380030701928E01_DXXX-br2.jpg"
+   },
+   "imageid": "1398MR0068380030701928E01_DXXX",
+   "camera": {
+    "filter_name": "UNK",
+    "camera_model_component_list": "UNK",
+    "instrument": "MAST_RIGHT",
+    "camera_model_type": "UNK"
+   },
+   "caption": "NASA's Mars Curiosity rover acquired this image using its onboard Right Mast Camera (MAHLI). \n\nThis image was acquired on Jul. 12, 2016 (Sol 1398).",
+   "sample_type": "subframe",
+   "date_taken_mars": "UNK",
+   "credit": "NASA/JPL-Caltech/MSSS",
+   "date_taken_utc": "2016-07-12T12:08:55",
+   "json_link": "https://mars.nasa.gov/rss/api/?feed=raw_images&category=msl&feedtype=json&id=1398MR0068380030701928E01_DXXX",
+   "link": "https://mars.nasa.gov/msl/multimedia/raw-images/1398MR0068380030701928E01_DXXX",
+   "drive": "",
+   "title": "Mars Curiosity Sol 1398: Right Mast Camera (MAHLI)",
+   "site": "",
+   "date_received": "2016-07-14T04:30:35Z"
+  },
+  {
+   "sol": 1398,
+   "attitude": "(0.227642,0.0839689,-0.0195656,-0.96992)",
+   "image_files": {
+    "medium": "http://mars.nasa.gov/msl-raw-images/proj/msl/redops/ods/surface/sol/01398/opgs/edr/ncam/NLB_521610437EDR_F0551864NCAM07753M_-br.jpg",
+    "small": "http://mars.nasa.gov/msl-raw-images/proj/msl/redops/ods/surface/sol/01398/opgs/edr/ncam/NLB_521610437EDR_F0551864NCAM07753M_-thm.jpg",
+    "full_res": "http://mars.jpl.nasa.gov/msl-raw-images/proj/msl/redops/ods/surface/sol/01398/opgs/edr/ncam/NLB_521610437EDR_F0551864NCAM07753M_.JPG",
+    "large": "http://mars.nasa.gov/msl-raw-images/proj/msl/redops/ods/surface/sol/01398/opgs/edr/ncam/NLB_521610437EDR_F0551864NCAM07753M_-br2.jpg"
+   },
+   "imageid": "NLB_521610437EDR_F0551864NCAM07753M_",
+   "camera": {
+    "filter_name": "UNK",
+    "camera_model_component_list": "(0.734482,0.7935,-1.925);(-0.970158,0.209199,0.122527);(-750.33,-1091.07,61.4299);(-340.572,72.7452,1277.13);(-0.970157,0.209201,0.122528);(0.0,0.000113419,0.00639801)",
+    "instrument": "NAV_LEFT_B",
+    "camera_model_type": "CAHVOR"
+   },
+   "caption": "NASA's Mars Curiosity rover acquired this image using its onboard Left Navigation Camera (Navcam B). \n\nThis image was acquired on Jul. 12, 2016 (Sol 1398) at the local mean solar time of 15:30:11.",
+   "sample_type": "full",
+   "date_taken_mars": "Sol-01398M15:30:11.140",
+   "credit": "NASA/JPL-Caltech",
+   "date_taken_utc": "2016-07-12T16:08:56.56922",
+   "json_link": "https://mars.nasa.gov/rss/api/?feed=raw_images&category=msl&feedtype=json&id=NLB_521610437EDR_F0551864NCAM07753M_",
+   "link": "https://mars.nasa.gov/msl/multimedia/raw-images/NLB_521610437EDR_F0551864NCAM07753M_",
+   "drive": "",
+   "title": "Mars Curiosity Sol 1398: Left Navigation Camera (Navcam)",
+   "site": "",
+   "date_received": "2016-07-12T19:52:39Z"
+  },
+  {
+   "sol": 1398,
+   "attitude": "(0.227642,0.0839689,-0.0195656,-0.96992)",
+   "image_files": {
+    "medium": "http://mars.nasa.gov/msl-raw-images/proj/msl/redops/ods/surface/sol/01398/opgs/edr/ncam/NLB_521604870EDR_F0551864NCAM00258M_-br.jpg",
+    "small": "http://mars.nasa.gov/msl-raw-images/proj/msl/redops/ods/surface/sol/01398/opgs/edr/ncam/NLB_521604870EDR_F0551864NCAM00258M_-thm.jpg",
+    "full_res": "http://mars.jpl.nasa.gov/msl-raw-images/proj/msl/redops/ods/surface/sol/01398/opgs/edr/ncam/NLB_521604870EDR_F0551864NCAM00258M_.JPG",
+    "large": "http://mars.nasa.gov/msl-raw-images/proj/msl/redops/ods/surface/sol/01398/opgs/edr/ncam/NLB_521604870EDR_F0551864NCAM00258M_-br2.jpg"
+   },
+   "imageid": "NLB_521604870EDR_F0551864NCAM00258M_",
+   "camera": {
+    "filter_name": "UNK",
+    "camera_model_component_list": "(1.04622,0.519346,-1.90022);(0.58894,0.740286,0.324205);(-659.27,1138.47,163.268);(47.3729,61.6123,1321.39);(0.590003,0.739313,0.324493);(1.24432e-05,7.18063e-05,0.00664516)",
+    "instrument": "NAV_LEFT_B",
+    "camera_model_type": "CAHVOR"
+   },
+   "caption": "NASA's Mars Curiosity rover acquired this image using its onboard Left Navigation Camera (Navcam B). \n\nThis image was acquired on Jul. 12, 2016 (Sol 1398) at the local mean solar time of 13:59:53.",
+   "sample_type": "full",
+   "date_taken_mars": "Sol-01398M13:59:53.055",
+   "credit": "NASA/JPL-Caltech",
+   "date_taken_utc": "2016-07-12T14:36:09.53429",
+   "json_link": "https://mars.nasa.gov/rss/api/?feed=raw_images&category=msl&feedtype=json&id=NLB_521604870EDR_F0551864NCAM00258M_",
+   "link": "https://mars.nasa.gov/msl/multimedia/raw-images/NLB_521604870EDR_F0551864NCAM00258M_",
+   "drive": "",
+   "title": "Mars Curiosity Sol 1398: Left Navigation Camera (Navcam)",
+   "site": "",
+   "date_received": "2016-07-12T18:36:51Z"
+  },
+  {
+   "sol": 1398,
+   "attitude": "(0.227642,0.0839689,-0.0195656,-0.96992)",
+   "image_files": {
+    "medium": "http://mars.nasa.gov/msl-raw-images/proj/msl/redops/ods/surface/sol/01398/opgs/edr/ncam/NRB_521604839EDR_F0551864NCAM00258M_-br.jpg",
+    "small": "http://mars.nasa.gov/msl-raw-images/proj/msl/redops/ods/surface/sol/01398/opgs/edr/ncam/NRB_521604839EDR_F0551864NCAM00258M_-thm.jpg",
+    "full_res": "http://mars.jpl.nasa.gov/msl-raw-images/proj/msl/redops/ods/surface/sol/01398/opgs/edr/ncam/NRB_521604839EDR_F0551864NCAM00258M_.JPG",
+    "large": "http://mars.nasa.gov/msl-raw-images/proj/msl/redops/ods/surface/sol/01398/opgs/edr/ncam/NRB_521604839EDR_F0551864NCAM00258M_-br2.jpg"
+   },
+   "imageid": "NRB_521604839EDR_F0551864NCAM00258M_",
+   "camera": {
+    "filter_name": "UNK",
+    "camera_model_component_list": "(0.839846,0.797415,-1.89113);(0.851567,0.329371,0.407838);(-4.3374,1306.68,201.368);(-25.511,-2.62789,1325.0);(0.850316,0.328258,0.41133);(1.51037e-05,0.00177364,-0.00538724)",
+    "instrument": "NAV_RIGHT_B",
+    "camera_model_type": "CAHVOR"
+   },
+   "caption": "NASA's Mars Curiosity rover acquired this image using its onboard Right Navigation Camera (Navcam B). \n\nThis image was acquired on Jul. 12, 2016 (Sol 1398) at the local mean solar time of 13:59:22.",
+   "sample_type": "full",
+   "date_taken_mars": "Sol-01398M13:59:22.172",
+   "credit": "NASA/JPL-Caltech",
+   "date_taken_utc": "2016-07-12T14:35:37.80228",
+   "json_link": "https://mars.nasa.gov/rss/api/?feed=raw_images&category=msl&feedtype=json&id=NRB_521604839EDR_F0551864NCAM00258M_",
+   "link": "https://mars.nasa.gov/msl/multimedia/raw-images/NRB_521604839EDR_F0551864NCAM00258M_",
+   "drive": "",
+   "title": "Mars Curiosity Sol 1398: Right Navigation Camera (Navcam)",
+   "site": "",
+   "date_received": "2016-07-12T18:37:20Z"
+  }
+ ]
+}
