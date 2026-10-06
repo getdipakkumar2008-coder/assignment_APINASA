@@ -4,7 +4,7 @@ info:
   version: 1.0.0
   description: Runs the date-to-photos pipeline and returns the result summary. Local use only; no authentication.
 servers:
-  - url: http://localhost:5080
+  - url: http://localhost:5180
 paths:
   /api/runs:
     post:

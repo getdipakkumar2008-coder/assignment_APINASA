@@ -20,4 +20,5 @@ public static class ErrorCodes
     public const string InputFileError = "INPUT_FILE_ERROR";
     public const string RunInProgress = "RUN_IN_PROGRESS";
     public const string UnexpectedError = "UNEXPECTED_ERROR";
+    public const string NoRunInProgress = "NO_RUN_IN_PROGRESS";
 }

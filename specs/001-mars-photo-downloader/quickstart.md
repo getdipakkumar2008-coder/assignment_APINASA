@@ -35,7 +35,7 @@ Expected: `New 0`, `Skip` equals the previous total; file timestamps unchanged.
 
 ## 6. API and UI (User Story 6)
 ```bash
-dotnet run --project src/MarsPhotos.Api                 # http://localhost:5080
+dotnet run --project src/MarsPhotos.Api                 # http://localhost:5180
 npm --prefix src/marsphotos-ui start                    # http://localhost:4200 (proxies /api and /photos)
 ```
 Expected: click **Run**; per-date cards show status badges, counts, errors and lazy thumbnails; empty, loading and error states are visible; everything is keyboard operable.

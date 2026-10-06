@@ -52,7 +52,7 @@ All types are immutable records in `MarsPhotos.Domain` unless noted. No persiste
 `Code` (from catalogue), `Message`, optional `Detail` (never contains secrets).
 
 ## Error-code catalogue (constants)
-`DATE_UNRECOGNIZED`, `DATE_INVALID`, `DATE_OUT_OF_RANGE`, `DATE_DUPLICATE`, `API_NO_PHOTOS`, `API_RATE_LIMITED`, `API_AUTH`, `API_UNAVAILABLE`, `API_BAD_RESPONSE`, `DL_FAILED`, `DL_REJECTED_URL`, `DL_TOO_LARGE`, `IO_ERROR`, `CONFIG_MISSING_KEY`, `INPUT_FILE_ERROR`, `RUN_IN_PROGRESS`, `UNEXPECTED_ERROR`.
+`DATE_UNRECOGNIZED`, `DATE_INVALID`, `DATE_OUT_OF_RANGE`, `DATE_DUPLICATE`, `API_NO_PHOTOS`, `API_RATE_LIMITED`, `API_AUTH`, `API_UNAVAILABLE`, `API_BAD_RESPONSE`, `DL_FAILED`, `DL_REJECTED_URL`, `DL_TOO_LARGE`, `IO_ERROR`, `CONFIG_MISSING_KEY`, `INPUT_FILE_ERROR`, `RUN_IN_PROGRESS`, `NO_RUN_IN_PROGRESS`, `UNEXPECTED_ERROR`.
 
 ## Relationships and state
 - A `RunSummary` has one `DateResult` per `DateInputLine` (in order); a `DateResult` has 0..N `PhotoOutcome`.
