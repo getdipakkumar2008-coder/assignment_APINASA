@@ -1,6 +1,6 @@
 # Phase 0 Research: Mars Rover Photo Downloader
 
-All items are resolved; no `NEEDS CLARIFICATION` remains except the one **approval-pending decision (D-1)**.
+All items are resolved; no `NEEDS CLARIFICATION` remains; decision D-1 is approved.
 Evidence marked *(live, 2026-10-06)* came from probing the real services with the project key (kept in the gitignored `.env`).
 
 ## R-1 Primary service availability
@@ -22,7 +22,7 @@ Evidence marked *(live, 2026-10-06)* came from probing the real services with th
 - **Decision**: fallback maps date → sol and returns that sol's photos. Sol(D) = floor((D at 12:00 UTC − 2012-08-06T05:17:57Z) / 88 775.244 s). Verified: 2017-02-27 → 1621, 2018-06-02 → 2069, 2016-07-13 → 1398, each returning photos.
 - **Rationale**: preserves original semantics; satisfies SC-002 and the brief's folder example for 2018-06-02.
 - **Alternatives**: (a) `date_taken_utc` filter — rejected, 0 photos for one sample date; (b) ±1 sol union filtered by capture date — same defect; (c) union of neighbouring sols — returns photos not belonging to the date.
-- **Needed from you**: approve amending REQ FR-3.13 and spec FR-011 / US5 scenario 3.
+- **Approved by the user 2026-10-06**; REQ FR-3.13 and spec FR-011 / US5 scenario 3 amended.
 
 ## R-4 Mission ranges (FR-007)
 - **Decision**: a small static table in Domain: Curiosity landed 2012-08-06, active (end = today UTC); Opportunity 2004-01-25 → 2018-06-10 (last contact); Spirit 2004-01-04 → 2010-03-22 (last contact). A date outside `[landing, end]` is `OutsideMissionRange` with **no** provider call.

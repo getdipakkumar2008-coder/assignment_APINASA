@@ -104,7 +104,7 @@ Because the Mars Rover Photos service named in the brief is currently unavailabl
 
 1. **Given** the original source returns "not found" or an error page, **When** a valid date is processed, **Then** the tool falls back automatically and reports the reason and the source used. [FR-3.14, FR-3.15]
 2. **Given** both sources fail for a date, **When** the run ends, **Then** that date shows a clear "source unavailable" error and the other dates are unaffected. [FR-3.14]
-3. **Given** the fallback source is used, **When** photos are selected, **Then** they are the photos of the Mars day that corresponds to the requested Earth date, even if some were captured a few hours before midnight of that date. **[PROPOSED AMENDMENT D-1, pending approval]** [FR-3.13]
+3. **Given** the fallback source is used, **When** photos are selected, **Then** they are the photos of the Mars day that corresponds to the requested Earth date, even if some were captured a few hours before midnight of that date. **[AMENDMENT D-1, APPROVED 2026-10-06]** [FR-3.13]
 
 ---
 
@@ -173,7 +173,7 @@ The operator supplies the NASA credential and options (source choice, rover, pho
 - **FR-008**: For each valid date the system MUST retrieve the first N photos (default 5, minimum 3, configurable) taken on that Earth date for the configured rover (default Curiosity). [FR-3.1–FR-3.3, A-3, A-4]
 - **FR-009**: The system MUST treat "no photos for this date" as a valid, non-error outcome. [FR-3.6]
 - **FR-010**: The system MUST first use the Mars Rover Photos service as specified, and on failure automatically fall back to NASA's alternative public rover-image source, recording the reason and which source served each date. [OQ-10, FR-3.11–FR-3.14]
-- **FR-011**: The fallback MUST convert the requested Earth date to the rover's Mars day and return the photos of that Mars day, which is the meaning the original service gives to an Earth date. **[PROPOSED AMENDMENT D-1, pending approval: replaces "keep only photos taken on the requested Earth date", which yields no photos for 2018-06-02]** [FR-3.13, F-4]
+- **FR-011**: The fallback MUST convert the requested Earth date to the rover's Mars day and return the photos of that Mars day, which is the meaning the original service gives to an Earth date. **[AMENDMENT D-1, APPROVED 2026-10-06: replaces "keep only photos taken on the requested Earth date", which yields no photos for 2018-06-02]** [FR-3.13, F-4]
 - **FR-012**: The system MUST categorize failures (bad request, not found, invalid credential, rate limited, server error, timeout, network failure, malformed or non-data response), retry only temporary ones with increasing waits and respect any provider "retry after" guidance, and never retry permanent failures. [FR-3.7, FR-3.8, FR-3.15]
 - **FR-013**: The system MUST apply timeouts to all external requests, keep request pacing within provider limits and support operator cancellation. [FR-3.10, NFR-4]
 

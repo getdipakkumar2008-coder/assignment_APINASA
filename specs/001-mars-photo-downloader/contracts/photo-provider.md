@@ -33,7 +33,7 @@ DTO is tolerant of unknown fields. Mapping: `id` → Id (+ camera name in the fi
 ## External source 2: raw image feed (fallback, Curiosity only)
 `GET {FallbackBaseUrl}?feed=raw_images&category=msl&feedtype=json&sol={sol}` (no key)
 
-- `sol = floor((date@12:00Z − 2012-08-06T05:17:57Z) / 88775.244 s)` — decision D-1, pending approval. Fixtures: 2017-02-27 → 1621, 2018-06-02 → 2069, 2016-07-13 → 1398.
+- `sol = floor((date@12:00Z − 2012-08-06T05:17:57Z) / 88775.244 s)` — decision D-1, approved 2026-10-06. Fixtures: 2017-02-27 → 1621, 2018-06-02 → 2069, 2016-07-13 → 1398.
 - Fields used: `images[].imageid`, `sol`, `date_taken_utc`, `camera.instrument`, `image_files.full_res|large`.
 - Mapping: `Id = imageid`; URL = `full_res`, else `large`, rewritten to `https`; `EarthDate` = requested date.
 - A rover other than `curiosity` → `Unavailable(API_UNAVAILABLE, "fallback supports Curiosity only")`.

@@ -667,7 +667,7 @@ Probes were made with the project's NASA key (stored only in the gitignored `.en
 |---|---|
 | FR-3.11 | Photo retrieval SHALL sit behind a provider port (`IPhotoProvider`) with a configurable provider. |
 | FR-3.12 | The **primary provider** SHALL implement the Mars Rover Photos contract in §8.1 exactly (so it works unchanged if the service returns). |
-| FR-3.13 | A **fallback provider** SHALL use the raw-image feed (F-4): convert Earth date → sol (Curiosity landing 2012-08-06 05:17:57 UTC, sol length 88775.244 s) and take the first N images of **that sol**. *(PROPOSED AMENDMENT D-1, 2026-10-06, pending approval: the original text filtered by `date_taken_utc`, which returns 0 photos for 2018-06-02 — see §22.3.)* |
+| FR-3.13 | A **fallback provider** SHALL use the raw-image feed (F-4): convert Earth date → sol (Curiosity landing 2012-08-06 05:17:57 UTC, sol length 88775.244 s) and take the first N images of **that sol**. *(AMENDMENT D-1, APPROVED 2026-10-06: the original text filtered by `date_taken_utc`, which returns 0 photos for 2018-06-02 — see §22.3.)* |
 | FR-3.14 | On primary 404/5xx after retries the system SHALL fall back automatically, report which provider served each date, and log the reason. Failure of both providers SHALL be a per-date `API_UNAVAILABLE` error. |
 | FR-3.15 | Non-JSON (HTML) responses SHALL be classified `API_BAD_RESPONSE`, never thrown as parse exceptions. |
 | FR-3.16 | Image hosts allow-list SHALL include `mars.nasa.gov`, `mars.jpl.nasa.gov`; `http://` image URLs SHALL be upgraded to `https://` when reachable, else downloaded over http with a logged warning. |
@@ -675,7 +675,7 @@ Probes were made with the project's NASA key (stored only in the gitignored `.en
 | SEC-10 | The API key SHALL live only in gitignored `.env` / user-secrets / environment (`NASA__ApiKey`); `.env.example` documents the name with a placeholder. A pre-commit gate SHALL block commits containing key-like strings. |
 
 ### 22.3 Finding F-6 (plan research, 2026-10-06)
-Original `earth_date` = the Earth date assigned to a sol. Filtering fallback images by `date_taken_utc` gives 25 / **0** / 187 images for 2017-02-27 / 2018-06-02 / 2016-07-13, whereas sol-based selection gives images for all three (sols 1621 / 2069 / 1398). Proposed amendment D-1 (FR-3.13) selects by sol.
+Original `earth_date` = the Earth date assigned to a sol. Filtering fallback images by `date_taken_utc` gives 25 / **0** / 187 images for 2017-02-27 / 2018-06-02 / 2016-07-13, whereas sol-based selection gives images for all three (sols 1621 / 2069 / 1398). Amendment D-1 (FR-3.13), approved 2026-10-06, selects by sol.
 
 ### 22.2 Corrected Assumptions
 - §5.3: rate limit with the project key is 2000/h; DEMO_KEY limits no longer drive the design.

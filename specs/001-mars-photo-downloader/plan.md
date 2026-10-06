@@ -10,7 +10,7 @@ Read dates from `dates.txt`, parse and validate them, look up photos for each va
 
 Approach: a small layered .NET 8 solution (Domain / Application / Infrastructure) with two thin hosts that share the same use case — a **console runner** and an **ASP.NET Core minimal-API host** — plus an Angular SPA. No database, queue or other infrastructure (Constitution II). All external I/O sits behind ports so the whole flow is testable with fakes and a mocked `HttpMessageHandler`.
 
-> **Decision requiring approval — D-1 (amends REQ FR-3.13)**: live research (see `research.md` R-3) shows the original service's `earth_date` means *the Earth date assigned to a Mars day (sol)*, not the UTC capture time. Filtering fallback photos by `date_taken_utc` yields **0 photos for 2018-06-02** (sol 2069 holds 60 photos, mostly captured 2018-06-01 UTC). The plan therefore selects fallback photos by **the sol that corresponds to the requested date**. This preserves the original service's semantics and meets SC-002 for all three sample dates. Spec FR-011 and REQ FR-3.13 are marked "proposed amendment" until approved.
+> **Decision D-1 — APPROVED 2026-10-06 (amends REQ FR-3.13)**: live research (see `research.md` R-3) shows the original service's `earth_date` means *the Earth date assigned to a Mars day (sol)*, not the UTC capture time. Filtering fallback photos by `date_taken_utc` yields **0 photos for 2018-06-02** (sol 2069 holds 60 photos, mostly captured 2018-06-01 UTC). The plan therefore selects fallback photos by **the sol that corresponds to the requested date**. This preserves the original service's semantics and meets SC-002 for all three sample dates. Spec FR-011 and REQ FR-3.13 carry the approved amendment.
 
 ## Technical Context
 
@@ -104,7 +104,7 @@ AI_NOTES.md
 
 | # | Decision | Traces to |
 |---|---|---|
-| D-1 | Fallback selects photos by **sol derived from the date** (amendment pending approval) | FR-010, FR-011, SC-002, F-4 |
+| D-1 | Fallback selects photos by **sol derived from the date** (amendment approved) | FR-010, FR-011, SC-002, F-4 |
 | D-2 | `IPhotoProvider` port; `ProviderChain` tries primary then fallback; result records which provider served | FR-010, OQ-10 |
 | D-3 | Primary provider treats 404, HTML/non-JSON, 5xx-after-retries as `Unavailable` → fallback; JSON `{"photos":[]}` is `NoPhotos`, **no** fallback | FR-009, FR-012 |
 | D-4 | Parsing: `DateOnly.TryParseExact` with a documented format array, invariant culture, two-digit-year → 2000–2099 | FR-003–FR-005 |
