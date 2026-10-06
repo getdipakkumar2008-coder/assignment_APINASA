@@ -21,3 +21,7 @@ coverage/
 .DS_Store
 # Claude local
 .claude/settings.local.json
+# End-to-end test output
+e2e/.tmp/
+e2e/test-results/
+e2e/playwright-report/

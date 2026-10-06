@@ -35,6 +35,19 @@ Opt-in live test: `RUN_LIVE_TESTS=1 dotnet test --filter Category=Live` passes (
 | `npm audit --omit=dev` | 0 vulnerabilities |
 | Negative checks | Removing image alt text makes the axe test fail with `image-alt (critical)`; planting a fake key in the repo makes `RepoSecretScanTests` fail and was then removed |
 
+## End-to-end tests in a real browser (Playwright)
+
+`e2e/` drives the installed Chrome against the real Angular dev server and the real API process (nothing mocked on the live path).
+
+| Suite | Result |
+|---|---|
+| `npm run e2e` (deterministic, fake key, no NASA calls) | 13 passed |
+| `npm run e2e:live` (real NASA, real key from `.env`) | 7 passed: real Cancel run button, 15 real photos downloaded through the UI, all thumbnails decode, served files are JPEGs, second run skips all 15, axe clean with real success cards |
+
+Mutation proof: making the Invalid-date badge low contrast made the real-browser axe test fail with `color-contrast`. The first mutation I tried (a Success badge) did *not* fail the test because the deterministic dates produce no Success cards; that is why the live suite also runs axe.
+
+Real-browser colour contrast is therefore now machine-checked (axe in Chrome). Still not done by a person: a screen-reader pass and a manual keyboard review.
+
 ## Accessibility (FR-041)
 
 Automated: axe-core (WCAG 2.0/2.1 A and AA, best practices) reports no violations in the empty, running, mixed-results, no-photos and error states. Colour contrast cannot be computed in jsdom, so it was **not** machine-checked: the palette uses dark text on light backgrounds chosen for at least 4.5:1, and this still needs a human check with a contrast tool.

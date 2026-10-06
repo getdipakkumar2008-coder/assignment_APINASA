@@ -116,6 +116,18 @@ Dependencies point inward (Domain has none; Infrastructure implements Applicatio
 
 ## Running the tests
 
+**End-to-end tests (real browser, real API process, UI to API):** the `e2e/` folder drives your installed Chrome with Playwright against the real Angular dev server and the real API. Stop any running dev servers first (it uses ports 4200 and 5180).
+
+```bash
+cd e2e && npm install        # once
+npm run e2e                  # deterministic suite: no NASA calls, fake key, runs anywhere (13 tests)
+npm run e2e:live             # adds the whole path through real NASA to thumbnails on screen (7 tests; needs your key)
+```
+
+The deterministic suite checks the page against the API (a run through the UI, reload keeps the last run, keyboard-only use, real-browser axe accessibility including colour contrast, phone width, Swagger UI, rejected cross-site POST, no-store headers, a clean browser console). The live suite cancels a real run with the Cancel button, then downloads the sample dates, checks every thumbnail is a decoded image, a second run skips everything, and runs axe on the page with real photo cards.
+
+**Unit and integration tests:**
+
 ```bash
 dotnet test                                          # unit + API tests
 npm --prefix src/marsphotos-ui test -- --watch=false # Angular tests (Vitest + axe-core accessibility checks)

@@ -280,3 +280,12 @@ Appended by `/speckit-converge` on 2026-10-06 (outcome: `tasks_appended`). Re-ch
 - [ ] T077 A person performs a keyboard-only walkthrough, a screen-reader pass (Narrator or NVDA) and a colour-contrast tool check of the UI, and records the outcome in `specs/001-mars-photo-downloader/verification.md`, per FR-041 and NFR-11 (partial, requires a human)
 - [X] T078 Re-run `/speckit-analyze` and `/speckit-converge` after T073 to T076 and confirm no CRITICAL or HIGH findings remain, per Constitution (Workflow: converge loop)
 
+---
+
+## Phase 12: End-to-end tests (added after convergence at the owner's request)
+
+- [X] T079 Add `e2e/` (Playwright, installed Chrome, `playwright.config.ts`, `global-setup.ts`) that starts the real API and Angular dev server on the dev ports and never reuses a running server, per Constitution X and AC-1/AC-7
+- [X] T080 [P] Write the deterministic suite `e2e/tests/ui-api.spec.ts` (13 tests): idle page with a clean console, API-unreachable alert, run through the UI, reload keeps the last run, keyboard-only operation with a visible focus indicator, skip link, axe WCAG A/AA including colour contrast in a real browser, phone width, Swagger UI, cross-origin POST rejected, no-store headers and no key in responses, per FR-020, FR-023, FR-041, SEC-7
+- [X] T081 [P] Write the live suite `e2e/tests/live.spec.ts` (7 tests): Cancel run button on a real run, real downloads through the UI, thumbnails decode as images, served files are JPEGs, second run skips everything, axe with real success cards, per AC-3, AC-4, AC-5, SC-002, SC-003
+- [X] T082 Prove the suite can fail (mutation: a low-contrast badge made the real-browser axe test fail) and document how to run it in `README.md`, per Constitution X
+- [X] T083 Record the API contract / Swagger UI, `204` for "no run yet" and the cross-origin guard as requirements covered by these tests: FR-020 (machine-readable output and published contract), SEC-7 (CORS and cross-site requests)

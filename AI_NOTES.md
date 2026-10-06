@@ -42,6 +42,9 @@ The prompt I used on the reviewer subagent also paid off: it named the checklist
 | 13 | **A mock hiding real configuration.** Downloader and provider tests use fake handlers, so the no-redirect setting on the real HTTP clients (the API key is in the query string) was never exercised | The checklist's "mocks hiding real behavior" item, and an earlier reviewer note | A test that inspects the real registered handler chain for all three clients |
 | 14 | **A 204 "no run yet" that browsers may cache**, and a leftover 404-to-null fallback in the UI that would have hidden a wrong base URL as "no run yet" | `/code-review` on the 204 change | `Cache-Control: no-store` on all `/api` responses; the fallback removed |
 
+| 15 | **An end-to-end test that could not fail where it mattered.** My first mutation check for the new Playwright contrast test changed the *Success* badge colour and the test still passed. The deterministic dates never produce a Success card, so that style was never on the page | Mutation check, then asking axe what it had evaluated | Mutated the badge that is actually rendered (it failed, correctly) and added axe to the live suite, which has real success cards |
+| 16 | **A vacuous cancel test.** The first live Cancel test only asserted "Cancelled" `if` the cancel had been accepted, so it could pass without testing anything | Re-reading my own test for conditional assertions | Replaced with one that clicks the real **Cancel run** button on a fresh, empty photo folder (slow enough to interrupt) and asserts the cancelled state |
+
 The independent review (`review.md`) then found 3 further MEDIUM issues the author's own tests had not: a cross-site `POST` that could start a run, a non-JSON body producing a 500, and file-name collisions / concurrent writes to one file.
 
 ## 4. Significant changes after the AI generated code
