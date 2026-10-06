@@ -13,6 +13,12 @@ public static class MissionRange
 
     public static bool IsKnownRover(string rover) => Ranges.ContainsKey(rover);
 
+    /// <summary>Human-readable inclusive range, e.g. <c>2012-08-06 to 2026-10-06</c>.</summary>
+    public static string Describe(string rover, DateOnly todayUtc) =>
+        Ranges.TryGetValue(rover, out var range)
+            ? $"{range.Start:yyyy-MM-dd} to {(range.End ?? todayUtc):yyyy-MM-dd}"
+            : "unknown rover";
+
     public static bool Contains(string rover, DateOnly date, DateOnly todayUtc)
     {
         if (!Ranges.TryGetValue(rover, out var range))

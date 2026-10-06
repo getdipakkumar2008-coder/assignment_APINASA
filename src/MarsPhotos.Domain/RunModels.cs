@@ -26,7 +26,8 @@ public sealed record DateResult(
     string? FallbackReason,
     int PhotosAvailable,
     IReadOnlyList<PhotoOutcome> Photos,
-    IReadOnlyList<ErrorInfo> Errors)
+    IReadOnlyList<ErrorInfo> Errors,
+    string? Note = null)
 {
     public int Downloaded => Photos.Count(p => p.Status == PhotoStatus.Downloaded);
 
@@ -34,8 +35,8 @@ public sealed record DateResult(
 
     public int Failed => Photos.Count(p => p.Status == PhotoStatus.Failed);
 
-    public static DateResult WithoutLookup(string input, DateOnly? date, DateResultStatus status, ErrorInfo? error = null) =>
-        new(input, date, status, null, null, 0, [], error is null ? [] : [error]);
+    public static DateResult WithoutLookup(string input, DateOnly? date, DateResultStatus status, ErrorInfo? error = null, string? note = null) =>
+        new(input, date, status, null, null, 0, [], error is null ? [] : [error], note);
 }
 
 public sealed record RunTotals(
