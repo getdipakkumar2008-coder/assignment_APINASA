@@ -68,8 +68,8 @@ paths:
           content:
             application/json:
               schema: { $ref: '#/components/schemas/RunSummary' }
-        '404':
-          description: No run yet
+        '204':
+          description: No run has completed yet (not an error)
   /photos/{date}/{file}:
     get:
       summary: Static stored photo (thumbnail source); only files under the photos root

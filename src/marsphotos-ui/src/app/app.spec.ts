@@ -18,7 +18,7 @@ describe('App', () => {
     if (latest === 'summary') {
       req.flush(mixedSummary());
     } else {
-      req.flush({ code: 'NO_RUN_YET' }, { status: 404, statusText: 'Not Found' });
+      req.flush(null, { status: 204, statusText: 'No Content' });
     }
     await fixture.whenStable();
   }

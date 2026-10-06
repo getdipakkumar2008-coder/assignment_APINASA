@@ -40,7 +40,7 @@ describe('Accessibility (axe-core)', () => {
   }
 
   function noLatest(): void {
-    http.expectOne('/api/runs/latest').flush({ code: 'NO_RUN_YET' }, { status: 404, statusText: 'Not Found' });
+    http.expectOne('/api/runs/latest').flush(null, { status: 204, statusText: 'No Content' });
   }
 
   it('has no violations in the initial empty state', async () => {

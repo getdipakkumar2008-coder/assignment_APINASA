@@ -93,7 +93,7 @@ app.MapGet("/health", () => Results.Ok(new { status = "ok" }));
 app.MapGet("/api/runs/latest", (RunCoordinator coordinator) =>
     coordinator.Latest is { } latest
         ? Results.Json(RunSummaryDto.From(latest), RunSummaryJson.Options)
-        : Problem(404, "No run yet", "No run has completed in this process yet.", "NO_RUN_YET"));
+        : Results.NoContent()); // no run yet is a normal state, not an error
 
 app.MapPost("/api/runs/cancel", (RunCoordinator coordinator) =>
     coordinator.Cancel()

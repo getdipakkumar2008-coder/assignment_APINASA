@@ -62,7 +62,8 @@ export class RunsService {
 
   /** The last completed run, or null when none has finished yet. */
   latest(): Observable<RunSummary | null> {
-    return this.http.get<RunSummary>(`${this.base}/api/runs/latest`).pipe(
+    return this.http.get<RunSummary | null>(`${this.base}/api/runs/latest`).pipe(
+      map((summary) => summary ?? null), // 204 No Content means no run yet
       catchError((error: HttpErrorResponse) => (error.status === 404 ? of(null) : toApiError(error))),
     );
   }

@@ -145,7 +145,7 @@ public class RunsEndpointTests
     }
 
     [Fact]
-    public async Task Latest_is_404_before_any_run_and_the_last_summary_afterwards()
+    public async Task Latest_is_204_no_content_before_any_run_and_the_last_summary_afterwards()
     {
         using var factory = new ApiFactory();
         using var client = factory.CreateClient();
@@ -154,7 +154,8 @@ public class RunsEndpointTests
         await client.PostAsync("/api/runs", null);
         var after = await client.GetAsync("/api/runs/latest");
 
-        Assert.Equal(HttpStatusCode.NotFound, before.StatusCode);
+        Assert.Equal(HttpStatusCode.NoContent, before.StatusCode); // "no run yet" is not an error, so no red 404 in browser consoles
+        Assert.Empty(await before.Content.ReadAsStringAsync());
         Assert.Equal(HttpStatusCode.OK, after.StatusCode);
         Assert.Equal(4, (await Json(after)).GetProperty("results").GetArrayLength());
     }
