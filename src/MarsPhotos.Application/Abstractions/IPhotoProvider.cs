@@ -25,6 +25,7 @@ public abstract record ProviderResult
     public sealed record Unavailable(string ErrorCode, string Message, bool Retriable) : ProviderResult;
 }
 
+/// <summary>Port to a photo source (or a chain of sources) that lists photos for a rover on an Earth date.</summary>
 public interface IPhotoProvider
 {
     string Name { get; }

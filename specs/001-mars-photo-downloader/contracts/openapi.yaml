@@ -26,8 +26,18 @@ paths:
           content:
             application/problem+json:
               schema: { $ref: '#/components/schemas/ProblemDetails' }
+        '403':
+          description: The request carries an Origin other than the UI's (http://localhost:4200); code FORBIDDEN_ORIGIN. Applies to every state-changing endpoint.
+          content:
+            application/problem+json:
+              schema: { $ref: '#/components/schemas/ProblemDetails' }
         '409':
-          description: A run is already in progress (code RUN_IN_PROGRESS)
+          description: A run is already in progress (code RUN_IN_PROGRESS), or the run was cancelled before any date was processed (code RUN_CANCELLED)
+          content:
+            application/problem+json:
+              schema: { $ref: '#/components/schemas/ProblemDetails' }
+        '415':
+          description: The body is not application/json (code UNSUPPORTED_MEDIA_TYPE)
           content:
             application/problem+json:
               schema: { $ref: '#/components/schemas/ProblemDetails' }
@@ -42,6 +52,8 @@ paths:
       responses:
         '202':
           description: Cancellation requested
+        '403':
+          description: Foreign Origin (code FORBIDDEN_ORIGIN)
         '409':
           description: No run in progress
           content:

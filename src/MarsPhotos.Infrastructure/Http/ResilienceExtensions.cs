@@ -9,6 +9,7 @@ using Polly.Timeout;
 
 namespace MarsPhotos.Infrastructure.Http;
 
+/// <summary>Retry, backoff and timeout policy for outgoing HTTP calls.</summary>
 public static class ResilienceExtensions
 {
     /// <summary>

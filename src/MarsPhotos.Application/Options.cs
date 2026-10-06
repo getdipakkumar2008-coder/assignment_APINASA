@@ -1,5 +1,6 @@
 namespace MarsPhotos.Application;
 
+/// <summary>Settings for the NASA services (<c>Nasa</c> configuration section).</summary>
 public sealed class NasaOptions
 {
     public const string SectionName = "Nasa";
@@ -12,6 +13,7 @@ public sealed class NasaOptions
     public string FallbackBaseUrl { get; set; } = "https://mars.nasa.gov/rss/api/";
 }
 
+/// <summary>Settings that control a run: input and output locations, photo count, limits, timeouts and retry policy (<c>Run</c> configuration section).</summary>
 public sealed class RunOptions
 {
     public const string SectionName = "Run";

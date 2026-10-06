@@ -103,6 +103,17 @@ AI_NOTES.md
 
 **Structure Decision**: Layered .NET solution with two thin hosts (Api, Cli) rather than one project, because the brief allows console OR API and both must report the same results from one use case. Two test projects separate fast unit tests from host integration tests. The Angular app lives under `src/` so the repository has a single source root. No separate backend/frontend repos or folders beyond this.
 
+### Supporting files (not tied to a single task)
+
+| File | Purpose |
+|---|---|
+| `scripts/gen_traceability.py` | Regenerates `traceability.md` (requirement to task to test) from the spec, tasks and test sources so it cannot drift |
+| `scripts/check-no-secrets.sh`, `.ps1` | Verifies the NASA key is absent from tracked files and git history; prints only file names or commit ids |
+| `docs/ui-results.png` | Screenshot of the real UI used by the README and verification record |
+| `.gitattributes` | Normalizes line endings across Windows and Linux checkouts |
+| `Dockerfile`, `.dockerignore` | Optional container image (bonus); key supplied at run time, `.env` excluded |
+| `.claude/` , `.specify/` | Agents, skills, hooks and Spec Kit configuration that enforce the workflow |
+
 ### Key Design Decisions (summary; rationale in research.md)
 
 | # | Decision | Traces to |
@@ -113,13 +124,16 @@ AI_NOTES.md
 | D-4 | Parsing: `DateOnly.TryParseExact` with a documented format array, invariant culture, two-digit-year → 2000–2099 | FR-003–FR-005 |
 | D-5 | Out-of-range dates (before landing or after today UTC) skip all lookups; reported `OutsideMissionRange` | FR-007 |
 | D-6 | Select first N after **sorting by stable photo id (numeric if all ids are whole numbers, else ordinal)** for determinism; fallback prefers `full_res`, else `large` | FR-008 |
-| D-7 | File name = sanitized provider stem + extension from an allow-list (`.jpg/.jpeg/.png`); write `.part` then `File.Move` | FR-014–FR-016 |
+| D-7 | File name = `FileNames.StemFor(photo id)` + extension from an allow-list (`.jpg/.jpeg/.png`); ids that survive sanitizing keep their name, lossy ids get a short hash suffix so two ids never share a file; provider duplicates are de-duplicated; write `.part` (deleted only by its creator) then one overwrite-move that never replaces a valid file | FR-014–FR-016 |
 | D-8 | Resilience via `Microsoft.Extensions.Http.Resilience` with custom retry predicate (no 4xx retry, honor `Retry-After`) | FR-012, FR-013 |
 | D-9 | `.env` loaded by a ~20-line dev-only loader in Infrastructure (no extra package); a secret store or CI can feed the environment variable instead (.NET user-secrets were not wired up) | FR-024, SEC-10 |
 | D-10 | Dates processed sequentially; ≤3 concurrent downloads per date | FR-013, NFR-6 |
 | D-11 | API host keeps the last `RunSummary` in memory; photos served as static files from the photos root only | FR-020, FR-023 |
 | D-12 | Exit code `0` when the run completes (even with per-date problems), `1` fatal config/IO, `2` unexpected crash | FR-022, OQ-7 |
 | D-13 | Angular dev server proxies `/api` and `/photos` to the API; CORS allows only `http://localhost:4200` | FR-023, SEC-7 |
+| D-14 | State-changing API requests with a foreign `Origin` are rejected (403) because CORS alone does not stop another site's page from *sending* a simple POST; a non-JSON body is a 415 (code review MEDIUM-1/2) | FR-023, SEC-7 |
+| D-15 | Relative `InputFile`/`OutputRoot` resolve against the solution root (`ProjectPaths`), not the process working directory, because `dotnet run --project` changes it for ASP.NET; CLI-typed paths stay relative to the caller | FR-024 |
+| D-16 | The API's default port is **5180** (5080 collided with another local app); the Angular dev proxy targets it | FR-023 |
 
 ## Complexity Tracking
 

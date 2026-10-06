@@ -12,7 +12,7 @@ Input            Date        Status               Source          New  Skip  Fai
 02/27/17         2017-02-27  Success              RawImageFeed      5     0     0
 ...
 April 31, 2018   -           InvalidDate          -                 0     0     0  DATE_INVALID: Day 31 does not exist in April 2018
-Totals: 4 lines | 3 valid | 1 invalid | 15 downloaded | 0 skipped | 0 failed
+Totals: 4 lines | 3 valid | 1 invalid | 0 outside range | 15 downloaded | 0 skipped | 0 failed
 ```
 `--json` prints the `RunSummary` JSON (same schema as the API) to stdout; logs go to stderr.
 

@@ -4,10 +4,13 @@ using MarsPhotos.Domain;
 
 namespace MarsPhotos.Application.Output;
 
+/// <summary>Wire shape of an error shown to clients.</summary>
 public sealed record ErrorDto(string Code, string Message);
 
+/// <summary>Wire shape of one photo outcome, with a relative URL when the photo was stored.</summary>
 public sealed record PhotoDto(string Id, string Status, string? Url, ErrorDto? Error);
 
+/// <summary>Wire shape of the result for one input line (see contracts/openapi.yaml).</summary>
 public sealed record DateResultDto(
     string Input,
     DateOnly? Date,
@@ -22,6 +25,7 @@ public sealed record DateResultDto(
     IReadOnlyList<PhotoDto> Photos,
     IReadOnlyList<ErrorDto> Errors);
 
+/// <summary>Wire shape of the totals for a run.</summary>
 public sealed record RunTotalsDto(
     int Lines,
     int Valid,
@@ -31,6 +35,7 @@ public sealed record RunTotalsDto(
     int Skipped,
     int Failed);
 
+/// <summary>Wire shape of a whole run summary (see contracts/openapi.yaml).</summary>
 public sealed record RunSummaryDto(
     string Rover,
     DateTimeOffset StartedAt,

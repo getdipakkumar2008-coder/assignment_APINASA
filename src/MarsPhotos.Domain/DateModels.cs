@@ -6,6 +6,7 @@ namespace MarsPhotos.Domain;
 /// <param name="RejectReason">Set by the reader when the line exceeded an input limit; the line is then reported as unrecognized.</param>
 public sealed record DateInputLine(int LineNumber, string RawText, string? RejectReason = null);
 
+/// <summary>How an input line was interpreted.</summary>
 public enum DateStatus
 {
     Valid,

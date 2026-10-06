@@ -6,6 +6,7 @@ public sealed class PhotoStoreException(string errorCode, string message, Except
     public string ErrorCode { get; } = errorCode;
 }
 
+/// <summary>Port to where photos are kept; implementations must write atomically and never overwrite a valid photo.</summary>
 public interface IPhotoStore
 {
     /// <summary>True when a complete (non-empty) file with this name exists for the date. A <c>.part</c> file never counts.</summary>

@@ -3,6 +3,7 @@ namespace MarsPhotos.Domain;
 /// <summary>One image offered by a photo source.</summary>
 public sealed record RoverPhoto(string Id, int? Sol, string Camera, Uri ImageUrl, DateOnly EarthDate, string Rover);
 
+/// <summary>What happened to one photo in this run.</summary>
 public enum PhotoStatus
 {
     Downloaded,

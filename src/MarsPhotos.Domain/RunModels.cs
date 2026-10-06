@@ -1,5 +1,6 @@
 namespace MarsPhotos.Domain;
 
+/// <summary>Overall outcome for one input line.</summary>
 public enum DateResultStatus
 {
     Success,
@@ -39,6 +40,7 @@ public sealed record DateResult(
         new(input, date, status, null, null, 0, [], error is null ? [] : [error], note);
 }
 
+/// <summary>Totals across all lines of a run; derived from the per-line results.</summary>
 public sealed record RunTotals(
     int Lines,
     int Valid,

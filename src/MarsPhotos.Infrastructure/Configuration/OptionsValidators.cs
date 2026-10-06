@@ -4,6 +4,7 @@ using Microsoft.Extensions.Options;
 
 namespace MarsPhotos.Infrastructure.Configuration;
 
+/// <summary>Validates <see cref="NasaOptions"/> at startup; a missing key is refused with guidance and never replaced by a shared demo key.</summary>
 public sealed class NasaOptionsValidator : IValidateOptions<NasaOptions>
 {
     public const string MissingKeyMessage =
@@ -38,6 +39,7 @@ public sealed class NasaOptionsValidator : IValidateOptions<NasaOptions>
     }
 }
 
+/// <summary>Validates <see cref="RunOptions"/> ranges at startup and names the offending setting.</summary>
 public sealed class RunOptionsValidator : IValidateOptions<RunOptions>
 {
     public ValidateOptionsResult Validate(string? name, RunOptions o)

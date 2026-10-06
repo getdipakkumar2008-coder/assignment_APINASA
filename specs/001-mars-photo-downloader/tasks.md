@@ -266,3 +266,17 @@ description: "Task list for Mars Rover Photo Downloader"
 | 9 US6 | 10 (T054–T063) |
 | 10 Polish | 9 (T064–T072) |
 | **Total** | **72** |
+
+---
+
+## Phase 11: Convergence
+
+Appended by `/speckit-converge` on 2026-10-06 (outcome: `tasks_appended`).
+
+- [X] T073 CRITICAL: add type-level XML documentation to the 20 public types that lack it, starting with the ports `IDateSource`, `IPhotoDownloader`, `IPhotoProvider`, `IPhotoStore`, then `NasaOptions`, `RunOptions`, `DownloadResult`, `DateStatus`, `PhotoStatus` and the DTO records in `src/MarsPhotos.Application/Output/RunSummaryJson.cs`, per Constitution XIII (partial)
+- [X] T074 Update `specs/001-mars-photo-downloader/contracts/openapi.yaml` (403 `FORBIDDEN_ORIGIN`, 415 `UNSUPPORTED_MEDIA_TYPE`, 409 `RUN_CANCELLED`) and `contracts/cli.md` (totals line includes "outside range") to match the implemented behavior per FR-019 and FR-037 (partial)
+- [X] T075 Update `specs/001-mars-photo-downloader/plan.md`: correct D-7 (file names use `FileNames.StemFor`) and record the review-driven decisions D-14 origin guard and 415 check, D-15 solution-root path resolution (`ProjectPaths`), D-16 API port 5180, per plan: key design decisions (partial)
+- [X] T076 Record the supporting files that no task called for (`scripts/gen_traceability.py`, `scripts/check-no-secrets.*`, `docs/ui-results.png`, `.gitattributes`) in the plan's repository structure with their purpose, per plan: source layout (unrequested)
+- [ ] T077 A person performs a keyboard-only walkthrough, a screen-reader pass (Narrator or NVDA) and a colour-contrast tool check of the UI, and records the outcome in `specs/001-mars-photo-downloader/verification.md`, per FR-041 and NFR-11 (partial, requires a human)
+- [ ] T078 Re-run `/speckit-analyze` and `/speckit-converge` after T073 to T076 and confirm no CRITICAL or HIGH findings remain, per Constitution (Workflow: converge loop)
+

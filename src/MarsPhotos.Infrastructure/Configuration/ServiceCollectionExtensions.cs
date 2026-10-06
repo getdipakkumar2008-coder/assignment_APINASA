@@ -16,6 +16,7 @@ using Microsoft.Extensions.Options;
 
 namespace MarsPhotos.Infrastructure.Configuration;
 
+/// <summary>Dependency-injection registration for the shared application, providers, downloader and store.</summary>
 public static class ServiceCollectionExtensions
 {
     /// <summary>
