@@ -543,7 +543,7 @@ Given/When/Then format for testability.
 | ID | Risk | Likelihood | Impact | Mitigation |
 |---|---|---|---|---|
 | R-1 | `DEMO_KEY` rate limit exhausted during dev/review | High | Med | Request personal key; cache results/skip existing; retry with backoff; sequential/low concurrency; stubbed tests |
-| R-2 | NASA API availability/behavior change or deprecation (Mars photos API has had outages/maintenance in the past) | Med | High | Graceful error reporting; DTO tolerance; mocked tests; document in README; verify endpoint early |
+| R-2 | **CONFIRMED 2026-10-06:** the Mars Rover Photos endpoint on api.nasa.gov is down (see §22) | **Realized** | High | Graceful error reporting; DTO tolerance; mocked tests; document in README; verify endpoint early |
 | R-3 | No photos exist for a given rover/date (e.g., rover inactive) | Med | Med | Treat as valid empty result; configurable rover; document A-3 |
 | R-4 | Ambiguous date formats (MM/dd vs dd/MM) | Med | Med | Documented assumption A-2; explicit format list; tests |
 | R-5 | Two-digit year misinterpretation | Low | Med | Deterministic pivot; test |
@@ -569,6 +569,7 @@ Given/When/Then format for testability.
 | OQ-6 | Behavior when the API key is absent: fail or fall back to `DEMO_KEY`? | Fail with guidance; opt-in fallback flag |
 | OQ-7 | Exit code policy for partial success? | `0` if run completed (errors reported in summary); non-zero only for fatal errors |
 | OQ-8 | Is the photo `earth_date` guaranteed equal to the requested date in responses? | Verify live; log mismatch |
+| OQ-10 | **BLOCKING:** the specified API is unavailable — approve the provider-fallback approach in §22? | Yes: primary adapter per brief + fallback adapter on NASA raw-image feed |
 | OQ-9 | Is a `sol`-based fallback desired when `earth_date` returns nothing? | No (out of scope) |
 
 ---
@@ -647,6 +648,35 @@ The submission SHOULD allow the author to explain the following, each backed by 
 | DTO | Data Transfer Object mirroring external JSON |
 | SSRF | Server-Side Request Forgery |
 | SRS | Software Requirements Specification |
+
+---
+## 22. Verification Findings (live probe, 2026-10-06)
+
+Probes were made with the project's NASA key (stored only in the gitignored `.env`; never in this repo).
+
+| # | Finding | Evidence |
+|---|---|---|
+| F-1 | API key is **valid**; rate limit is **2000 requests/hour** (`X-Ratelimit-Remaining` header) — not the DEMO_KEY limits assumed in §5.3 | Header observed; APOD and NEO endpoints return 200 |
+| F-2 | **The Mars Rover Photos API is unavailable.** Every route under `https://api.nasa.gov/mars-photos/api/v1/` (photos by `earth_date`/`sol`, `latest_photos`, `manifests`, `rovers`) for curiosity/opportunity/spirit returns **HTTP 404 HTML "No such app"** — the Heroku backend no longer exists. The community mirror `mars-photos.herokuapp.com` returns the same. | 9/9 date×rover calls and 6 route variants |
+| F-3 | api.nasa.gov can return transient **HTTP 500** (observed once on APOD, then 200), supporting the retry requirement (FR-3.8) | Observed |
+| F-4 | A working alternative exists: NASA's public raw-image feed `https://mars.nasa.gov/rss/api/?feed=raw_images&category=msl&feedtype=json&sol={sol}` (Curiosity). It needs **sol**, not `earth_date`, and each image has `date_taken_utc` and `image_files{small,medium,large,full_res}` (HTTP URLs on `mars.nasa.gov` / `mars.jpl.nasa.gov`). Sample dates map to sols 1621 (2017-02-27), 2069 (2018-06-02), 1398 (2016-07-13); neighbouring sols return 96–343 images each. | Live calls; no key needed |
+| F-5 | Brief conflict: it mandates "NASA Mars Rover Photos API" and `earth_date`, which no longer works. | F-2 |
+
+### 22.1 Resulting Requirements
+| ID | Requirement |
+|---|---|
+| FR-3.11 | Photo retrieval SHALL sit behind a provider port (`IPhotoProvider`) with a configurable provider. |
+| FR-3.12 | The **primary provider** SHALL implement the Mars Rover Photos contract in §8.1 exactly (so it works unchanged if the service returns). |
+| FR-3.13 | A **fallback provider** SHALL use the raw-image feed (F-4): convert Earth date → sol (Curiosity landing 2012-08-06 05:17:57 UTC, sol length 88775.244 s), query sol−1…sol+1, keep only images whose `date_taken_utc` date equals the requested date, take the first N. |
+| FR-3.14 | On primary 404/5xx after retries the system SHALL fall back automatically, report which provider served each date, and log the reason. Failure of both providers SHALL be a per-date `API_UNAVAILABLE` error. |
+| FR-3.15 | Non-JSON (HTML) responses SHALL be classified `API_BAD_RESPONSE`, never thrown as parse exceptions. |
+| FR-3.16 | Image hosts allow-list SHALL include `mars.nasa.gov`, `mars.jpl.nasa.gov`; `http://` image URLs SHALL be upgraded to `https://` when reachable, else downloaded over http with a logged warning. |
+| NFR-15 | Tests SHALL use recorded fixtures of both providers; the unavailability of the real service is itself a required test case. |
+| SEC-10 | The API key SHALL live only in gitignored `.env` / user-secrets / environment (`NASA__ApiKey`); `.env.example` documents the name with a placeholder. A pre-commit gate SHALL block commits containing key-like strings. |
+
+### 22.2 Corrected Assumptions
+- §5.3: rate limit with the project key is 2000/h; DEMO_KEY limits no longer drive the design.
+- A-3: Curiosity remains the default; Opportunity/Spirit are unsupported by the fallback feed and report `API_UNAVAILABLE`.
 
 ---
 *End of document.*
