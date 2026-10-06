@@ -209,7 +209,7 @@ Dockerfile
 | FR-2.6 | Unparseable text SHALL be classified as **Unrecognized format** with the original text preserved. |
 | FR-2.7 | The system SHALL normalize valid dates to ISO `yyyy-MM-dd` for API calls and folder names. |
 | FR-2.8 | Duplicate dates (same normalized value from different lines) SHALL be processed once and the duplication noted in the output. |
-| FR-2.9 | Dates in the future, or earlier than the rover's landing date, SHOULD be flagged as "outside rover mission range" (warning, no API call needed, or API returns empty). |
+| FR-2.9 | Dates in the future, or earlier than the rover's landing date, SHALL NOT trigger a photo-source call and SHALL be reported as "outside rover mission range" (0 photos, no error); all in-range valid dates SHALL be queried. *(Clarified 2026-10-06)* |
 | FR-2.10 | One bad line SHALL NEVER prevent processing of the remaining lines. |
 
 **Expected parse outcomes for the provided sample**
@@ -561,13 +561,13 @@ Given/When/Then format for testability.
 
 | ID | Question | Proposed default |
 |---|---|---|
-| OQ-1 | Is the Angular UI mandatory or optional? Brief lists UI as optional output yet mandates Angular for UI. | Deliver console + JSON API as baseline and a minimal Angular UI; confirm with reviewer |
+| OQ-1 | **RESOLVED 2026-10-06: YES, in scope.** Is the Angular UI mandatory or optional? Brief lists UI as optional output yet mandates Angular for UI. | Deliver console + JSON API as baseline and a minimal Angular UI; confirm with reviewer |
 | OQ-2 | Preferred rover? | Curiosity (active throughout the sample dates) |
 | OQ-3 | Slash format order (US vs. day-first)? | US `MM/dd/yy` |
 | OQ-4 | Should "first 3–5 photos" be exactly 5, or any count in range? | Default 5, configurable |
 | OQ-5 | Should the app be a console tool, a web API, or both? | Shared application layer with console runner + Web API |
-| OQ-6 | Behavior when the API key is absent: fail or fall back to `DEMO_KEY`? | Fail with guidance; opt-in fallback flag |
-| OQ-7 | Exit code policy for partial success? | `0` if run completed (errors reported in summary); non-zero only for fatal errors |
+| OQ-6 | **RESOLVED 2026-10-06: project key supplied via gitignored settings; no DEMO_KEY; refuse if missing.** Behavior when the API key is absent: fail or fall back to `DEMO_KEY`? | Fail with guidance; opt-in fallback flag |
+| OQ-7 | **Unanswered; default retained.** Exit code policy for partial success? | `0` if run completed (errors reported in summary); non-zero only for fatal errors |
 | OQ-8 | Is the photo `earth_date` guaranteed equal to the requested date in responses? | Verify live; log mismatch |
 | OQ-10 | The specified API is unavailable — provider-fallback approach in §22? | **APPROVED 2026-10-06**: primary adapter per brief + fallback adapter on NASA raw-image feed |
 | OQ-9 | Is a `sol`-based fallback desired when `earth_date` returns nothing? | No (out of scope) |

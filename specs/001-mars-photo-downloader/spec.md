@@ -10,6 +10,15 @@
 
 **Source of truth**: `requirements/enterprise-requirements.md` (referred to as "REQ"). Bracketed IDs such as `[FR-2.5]` trace each statement to REQ.
 
+## Clarifications
+
+### Session 2026-10-06
+
+- Q: Is the visual results page in scope? → A: **Yes**, it is a delivered feature (OQ-1).
+- Q: Missing credential: refuse to run or fall back to the shared demo key? → A: The operator supplied a project-specific NASA key to be used through external settings; the shared demo key is **not** used. If no key is configured the tool refuses to run (OQ-6). *Interpretation: the answer provided a key rather than choosing a policy; "refuse, never demo key" is the reading that is consistent with it.* The key is kept only in a git-ignored local settings file.
+- Q: Should a run with partial failures still end with a success exit status? → A: **Not answered; default retained** (OQ-7): a run that completes and reports per-date problems ends with success status; only fatal conditions (missing key, unreadable input file, unwritable output) end with failure status.
+- Q: Dates outside the rover's mission range: flag only, or skip the lookup? → A: Skip the photo lookup and report them as "outside mission range"; every date inside the mission range is looked up normally (FR-2.9). *Interpretation of "ignore API call but any valid date run api call".*
+
 ## User Scenarios & Testing *(mandatory)*
 
 ### User Story 1 - Turn a list of dates into saved rover photos (Priority: P1)
@@ -99,7 +108,7 @@ Because the Mars Rover Photos service named in the brief is currently unavailabl
 
 ---
 
-### User Story 6 - Browse results visually (Priority: P2)
+### User Story 6 - Browse results visually (Priority: P2, in scope)
 
 An operator opens a simple visual page, triggers a run and sees the per-date results, errors and thumbnails of the saved photos.
 [BR-4, FR-5.4, FR-5.5, FR-7, AC-12]
@@ -137,7 +146,7 @@ The operator supplies the NASA credential and options (source choice, rover, pho
 - **Two-digit years** (`17`) resolve to the same year on every machine regardless of regional settings. [FR-2.4, NFR-1]
 - **Text that matches no known format**, blank lines and surrounding spaces: unrecognized text is reported with the original wording, blanks are ignored, spaces are trimmed. [FR-1.4, FR-2.6]
 - **Duplicate dates** written differently (e.g. `02/27/17` and `2017-02-27`): processed once and the duplication noted. [FR-2.8]
-- **Dates before the rover landed or in the future**: flagged as outside the mission range. [FR-2.9]
+- **Dates before the rover landed or in the future**: no lookup is made; reported as outside the mission range with zero photos. [FR-2.9]
 - **A date with no photos**: a valid outcome, reported as zero photos rather than an error. [FR-3.6, A-7]
 - **Photo source returns a web page instead of data**, malformed data, or fields missing: classified as a bad response, never a crash. [FR-3.5, FR-3.15]
 - **Photo already present but empty (zero size)**: treated as incomplete and downloaded again. [FR-4.3]
@@ -158,7 +167,7 @@ The operator supplies the NASA credential and options (source choice, rover, pho
 - **FR-004**: The system MUST interpret slash-separated numeric dates as month-first and two-digit years as 20xx, identically on every machine. [A-1, A-2, FR-2.4, NFR-1]
 - **FR-005**: The system MUST classify each line as valid, invalid (not a real calendar date) or unrecognized, preserving the original text and giving a plain-language reason, and MUST NOT stop processing other lines because of one bad line. [FR-2.5, FR-2.6, FR-2.10]
 - **FR-006**: The system MUST normalize valid dates to year-month-day for retrieval and folder names, and MUST process duplicate dates once with a note. [FR-2.7, FR-2.8]
-- **FR-007**: The system SHOULD flag dates outside the rover's mission range. [FR-2.9]
+- **FR-007**: The system MUST NOT query any photo source for a valid calendar date that falls outside the rover's mission range (before landing or in the future); it MUST report that date as "outside mission range" with zero photos and no error, and MUST still query for every valid date inside the range. [FR-2.9, Clarification 2026-10-06]
 
 **Photo retrieval**
 - **FR-008**: For each valid date the system MUST retrieve the first N photos (default 5, minimum 3, configurable) taken on that Earth date for the configured rover (default Curiosity). [FR-3.1–FR-3.3, A-3, A-4]
@@ -179,12 +188,12 @@ The operator supplies the NASA credential and options (source choice, rover, pho
 - **FR-019**: The system MUST present, per input line: the original text, the normalized date, the supplying source, counts of downloaded / skipped / failed photos, and any validation or retrieval errors; plus overall totals. [FR-5.1–FR-5.3]
 - **FR-020**: The system MUST provide this result as an on-screen summary (guaranteed minimum) and SHOULD also provide it in a machine-readable form for other programs. [FR-5.2, FR-5.4]
 - **FR-021**: The system MUST use stable error categories with clear remedies in plain language. [§9.2, NFR-11]
-- **FR-022**: The system MUST signal completion status so that fatal failures are distinguishable from runs that finished with reported per-date problems. [FR-5.6]
-- **FR-023**: The system SHOULD offer a visual results page showing per-date status, counts, errors and thumbnails, with loading, empty and error states, usable by keyboard and assistive technology. [FR-5.5, FR-7.1–FR-7.6]
+- **FR-022**: The system MUST end with success status when the run completed, even if individual dates reported problems, and with failure status only for fatal conditions (no credential, unreadable input file, unwritable output location, unexpected crash). [FR-5.6, OQ-7]
+- **FR-023**: The system MUST offer a visual results page showing per-date status, counts, errors and thumbnails, with loading, empty and error states, usable by keyboard and assistive technology. [FR-5.5, FR-7.1–FR-7.6]
 
 **Configuration and security**
 - **FR-024**: The system MUST take the NASA credential, source, rover, photo count, input file, output folder, timeouts, retries and concurrency from external settings; the credential MUST NOT appear in code, committed files, logs, output or the visual page. [FR-6.1–FR-6.4, SEC-1, SEC-2, SEC-10]
-- **FR-025**: The system MUST refuse to start without a credential and explain how to supply one. [FR-6.4, OQ-6 default]
+- **FR-025**: The system MUST refuse to start without a credential and explain how to supply one; it MUST NOT substitute a shared demo credential. [FR-6.4, OQ-6, Clarification 2026-10-06]
 - **FR-026**: The system MUST record progress and problems in a log containing context (date, photo, attempt) but never secrets, including the credential inside request addresses. [NFR-9, SEC-1, §11.2]
 
 **Delivery**
@@ -226,10 +235,10 @@ Adopted from REQ §5.1 and §22; each can be revised through `/speckit-clarify`.
 - "First 3–5 photos" means a configurable count, default 5 [A-4, OQ-4].
 - One date per line; comment lines are optional [A-5, FR-1.6].
 - "No photos for a date" is not an error [A-7].
-- A NASA credential is available to the operator; the project key allows about 2000 requests per hour [F-1]. The tool refuses to run without one [OQ-6 default].
+- A NASA credential is available to the operator; the project key allows about 2000 requests per hour [F-1]. The tool refuses to run without one and never uses a shared demo key [OQ-6].
 - The operator has outbound internet access to NASA services [A-8].
-- Partial failures end a run normally with errors reported; only fatal problems signal failure [OQ-7 default].
-- A console summary and machine-readable output are the baseline; the visual results page is also delivered but is secondary [OQ-1, OQ-5 defaults].
+- Partial failures end a run normally with errors reported; only fatal problems signal failure [OQ-7, retained default, unanswered].
+- A console summary and machine-readable output are the baseline; the visual results page is confirmed in scope [OQ-1, OQ-5].
 - Out of scope: image editing, user accounts, databases, cloud hosting, other NASA services, fetching beyond the first N photos [§4.2, OQ-9].
 - Dependencies: NASA's original photo service (currently unavailable) and NASA's raw-image feed; the latter covers Curiosity only and exposes web addresses on NASA-controlled hosts [F-2, F-4].
 - Risks accepted: the fallback source's structure is not a documented contract and may change [R-2, F-4]; image addresses may need a secure-connection upgrade [FR-3.16, R-6].
