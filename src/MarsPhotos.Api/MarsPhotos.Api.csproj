@@ -4,10 +4,19 @@
     <ProjectReference Include="..\MarsPhotos.Infrastructure\MarsPhotos.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="6.*" />
+  </ItemGroup>
+
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
+
+  <ItemGroup>
+    <!-- The API contract is served from the same file the spec keeps, so the two cannot diverge. -->
+    <Content Include="..\..\specs\001-mars-photo-downloader\contracts\openapi.yaml" Link="openapi.yaml" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
 
 </Project>

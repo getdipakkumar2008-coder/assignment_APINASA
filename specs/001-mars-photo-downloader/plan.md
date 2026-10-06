@@ -131,6 +131,7 @@ AI_NOTES.md
 | D-11 | API host keeps the last `RunSummary` in memory; photos served as static files from the photos root only | FR-020, FR-023 |
 | D-12 | Exit code `0` when the run completes (even with per-date problems), `1` fatal config/IO, `2` unexpected crash | FR-022, OQ-7 |
 | D-13 | Angular dev server proxies `/api` and `/photos` to the API; CORS allows only `http://localhost:4200` | FR-023, SEC-7 |
+| D-17 | The API serves its contract at `/openapi.yaml` (the spec file itself, linked into the build) and an offline Swagger UI at `/swagger`; a test compares routed endpoints with the contract in both directions. The origin guard (D-14) also allows the API's own origin so Swagger "Try it out" works | FR-020 |
 | D-14 | State-changing API requests with a foreign `Origin` are rejected (403) because CORS alone does not stop another site's page from *sending* a simple POST; a non-JSON body is a 415 (code review MEDIUM-1/2) | FR-023, SEC-7 |
 | D-15 | Relative `InputFile`/`OutputRoot` resolve against the solution root (`ProjectPaths`), not the process working directory, because `dotnet run --project` changes it for ASP.NET; CLI-typed paths stay relative to the caller | FR-024 |
 | D-16 | The API's default port is **5180** (5080 collided with another local app); the Angular dev proxy targets it | FR-023 |

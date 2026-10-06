@@ -15,6 +15,7 @@ COPY src/MarsPhotos.Api/MarsPhotos.Api.csproj src/MarsPhotos.Api/
 COPY src/MarsPhotos.Cli/MarsPhotos.Cli.csproj src/MarsPhotos.Cli/
 RUN dotnet restore src/MarsPhotos.Api/MarsPhotos.Api.csproj && dotnet restore src/MarsPhotos.Cli/MarsPhotos.Cli.csproj
 COPY src/ src/
+COPY specs/001-mars-photo-downloader/contracts/openapi.yaml specs/001-mars-photo-downloader/contracts/openapi.yaml
 RUN dotnet publish src/MarsPhotos.Api/MarsPhotos.Api.csproj -c Release -o /out/api --no-restore \
  && dotnet publish src/MarsPhotos.Cli/MarsPhotos.Cli.csproj -c Release -o /out/cli --no-restore
 

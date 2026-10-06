@@ -51,8 +51,9 @@ public class SecurityEndpointTests
 
     [Theory]
     [InlineData("http://localhost:4200")]
+    [InlineData("http://localhost")] // the API's own origin: Swagger UI "Try it out" posts from here
     [InlineData(null)]
-    public async Task The_ui_origin_and_non_browser_clients_can_start_a_run(string? origin)
+    public async Task The_ui_origin_the_same_origin_and_non_browser_clients_can_start_a_run(string? origin)
     {
         using var factory = new ApiFactory();
         using var client = factory.CreateClient();

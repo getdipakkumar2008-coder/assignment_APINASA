@@ -5,7 +5,12 @@
 .gitignore
 .claude
 .specify
-specs
+specs/*
+!specs/001-mars-photo-downloader
+specs/001-mars-photo-downloader/*
+!specs/001-mars-photo-downloader/contracts
+specs/001-mars-photo-downloader/contracts/*
+!specs/001-mars-photo-downloader/contracts/openapi.yaml
 requirements
 docs
 photos

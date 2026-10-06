@@ -42,14 +42,15 @@ app.UseExceptionHandler();
 app.UseCors("ui");
 
 // CORS only stops a page from *reading* a response; it does not stop another site's page from *sending* a simple POST that
-// starts or cancels a run. Reject state-changing requests that carry a foreign Origin (review finding MEDIUM-1).
+// starts or cancels a run. Reject state-changing requests that carry a foreign Origin (the UI origin and the API's own origin, used by Swagger UI, are allowed) (review finding MEDIUM-1).
 app.Use(async (context, next) =>
 {
     var method = context.Request.Method;
     var isSafe = HttpMethods.IsGet(method) || HttpMethods.IsHead(method) || HttpMethods.IsOptions(method);
     if (!isSafe
         && context.Request.Headers.TryGetValue("Origin", out var origin)
-        && !string.Equals(origin.ToString(), UiOrigin, StringComparison.OrdinalIgnoreCase))
+        && !string.Equals(origin.ToString(), UiOrigin, StringComparison.OrdinalIgnoreCase)
+        && !string.Equals(origin.ToString(), $"{context.Request.Scheme}://{context.Request.Host}", StringComparison.OrdinalIgnoreCase))
     {
         await Problem(403, "Forbidden origin", "Requests from this origin are not allowed.", ErrorCodes.ForbiddenOrigin).ExecuteAsync(context);
         return;
@@ -70,6 +71,21 @@ app.UseStaticFiles(new StaticFileOptions
         [".jpeg"] = "image/jpeg",
         [".png"] = "image/png",
     }),
+});
+
+// OpenAPI contract (the spec file itself) and an offline Swagger UI to explore it.
+app.MapGet("/openapi.yaml", () =>
+{
+    var file = Path.Combine(AppContext.BaseDirectory, "openapi.yaml");
+    return File.Exists(file)
+        ? Results.File(file, "application/yaml")
+        : Problem(404, "Contract not found", "openapi.yaml was not deployed with the API.", "OPENAPI_NOT_FOUND");
+});
+app.UseSwaggerUI(options =>
+{
+    options.RoutePrefix = "swagger";
+    options.DocumentTitle = "Mars Rover Photo Downloader API";
+    options.SwaggerEndpoint("/openapi.yaml", "Mars Rover Photo Downloader API v1");
 });
 
 app.MapGet("/health", () => Results.Ok(new { status = "ok" }));

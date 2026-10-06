@@ -31,6 +31,8 @@ cd src/marsphotos-ui && npm install && npm start
 
 Open <http://localhost:4200>, press **Run**, and browse the results.
 
+**API documentation:** with the API running, open **<http://localhost:5180/swagger>** for the interactive Swagger UI (you can try the endpoints from there) or fetch the raw contract from <http://localhost:5180/openapi.yaml>. The contract is the same file the spec keeps (`specs/001-mars-photo-downloader/contracts/openapi.yaml`), and a test fails if the API gains or loses an endpoint without the contract being updated.
+
 Console output for the sample `dates.txt`:
 
 ```text
@@ -95,7 +97,7 @@ src/
   MarsPhotos.Application     date parser, the processing use case, provider chain, ports (interfaces), output renderers
   MarsPhotos.Infrastructure  NASA clients, HTTP resilience, downloader, file store, URL policy, configuration
   MarsPhotos.Cli             console runner (thin)
-  MarsPhotos.Api             ASP.NET Core minimal API: /api/runs, /api/runs/latest, /api/runs/cancel, /photos, /health
+  MarsPhotos.Api             ASP.NET Core minimal API: /api/runs, /api/runs/latest, /api/runs/cancel, /photos, /health, /openapi.yaml, /swagger
   marsphotos-ui              Angular 22 standalone app (strict TypeScript)
 tests/
   MarsPhotos.Tests           unit + integration tests with recorded NASA fixtures
