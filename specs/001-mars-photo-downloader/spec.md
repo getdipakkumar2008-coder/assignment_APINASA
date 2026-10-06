@@ -226,6 +226,27 @@ The operator supplies the NASA credential and options (source choice, rover, pho
 - **SC-009**: A new reader can build and run the project from the README alone, and finds the AI notes and a history of at least 8 small commits. [AC-1, AC-9, AC-10]
 - **SC-010**: Each acceptance criterion AC-1..AC-11 has at least one automated test or documented manual verification. [§14, §15]
 
+### Audit-Resolved Definitions (from `checklists/audit.md`, 2026-10-06)
+
+Precision added to close audit gaps; none change approved business behavior. Reviewer to confirm.
+
+- **FR-029 (limits)**: Input files MUST be limited to 1000 non-blank lines and 200 characters per line; run requests supplied directly MUST be limited to 100 lines. Excess lines are reported as unrecognized with a limit message, not silently dropped. [CHK003, CHK004]
+- **FR-030 (ordering)**: "First N photos" means photos ordered ascending by the source's photo identifier (plain character order); fewer than N available is still a success, reporting how many were available. [CHK009, CHK021]
+- **FR-031 (Mars day)**: The Mars day for an Earth date is computed from noon UTC of that date relative to the rover's landing instant, using the Mars day length of 88 775.244 seconds, rounded down. "Today" and all date comparisons use UTC. [CHK010, CHK034]
+- **FR-032 (mission range)**: Curiosity: 2012-08-06 to today. Opportunity: 2004-01-25 to 2018-06-10. Spirit: 2004-01-04 to 2010-03-22. Dates outside these inclusive ranges are "outside mission range". [CHK011]
+- **FR-033 (failure classes)**: *Temporary*: timeout, connection failure, HTTP 408, 429, and 5xx. *Permanent*: HTTP 400, 401, 403, 404 and non-data (web page) responses. Up to 3 retries, waits starting at 1 second and doubling up to 8 seconds with random jitter, within a total budget of 60 seconds per request. [CHK012, CHK042]
+- **FR-034 (approved hosts)**: Only `mars.nasa.gov` and `mars.jpl.nasa.gov` over HTTPS are accepted for photo downloads, from either source; any other host is rejected with a download-rejected error. [CHK013, CHK032]
+- **FR-035 (complete file)**: A stored photo is complete only if it was fully received, is an image type and is larger than zero bytes; anything else is discarded. [CHK014, CHK036]
+- **FR-036 (counts)**: A photo already present counts as *skipped*, never *downloaded*; *downloaded* counts only newly stored photos in this run. [CHK016]
+- **FR-037 (concurrent runs)**: Only one run may be active at a time; a second start request while one is running MUST be refused with a clear "run in progress" message. [CHK006]
+- **FR-038 (retention)**: Stored photos are never deleted or aged out by the tool; clearing them is the operator's responsibility. [CHK005]
+- **FR-039 (all invalid)**: A list with no valid dates ends normally with a full summary, no lookups and success status. [CHK035]
+- **FR-040 (observability)**: Each fallback decision MUST be logged as a warning with the date and reason; the rate-limit warning triggers when fewer than 100 requests remain in the provider's quota. [CHK043, CHK046]
+- **FR-041 (accessibility target)**: The visual page MUST meet WCAG 2.1 level AA for the elements it contains (status shown with text not only colour, visible focus, alternative text for photos, live announcement of run status). [CHK028, CHK047]
+- **FR-042 (cancel)**: The operator MUST be able to stop a run from the visual page; the page then shows results so far marked "cancelled". [CHK007]
+- **FR-043 (attribution)**: The README MUST credit NASA/JPL-Caltech as the image source. [CHK055]
+- **Same-name photos across sources**: a photo is skipped when a file with its final name exists; switching sources between runs may therefore store a photo under a second name. Accepted limitation. [CHK033]
+
 ## Assumptions
 
 Adopted from REQ §5.1 and §22; each can be revised through `/speckit-clarify`.

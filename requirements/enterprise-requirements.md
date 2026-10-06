@@ -283,7 +283,7 @@ Totals: 4 lines | 3 valid | 1 invalid | 13 downloaded | 2 skipped | 0 failed
 | FR-6.1 | All settings SHALL be externalized via `appsettings.json`, environment variables, and CLI args (precedence: CLI > env > file). |
 | FR-6.2 | Configurable items: API key, base URL, rover, photos per date (3–5), input file path, output root, timeouts, retry count, max concurrency. |
 | FR-6.3 | The API key SHALL be supplied via environment variable (e.g., `NASA__ApiKey` / `NASA_API_KEY`), user-secrets, or secret store — never committed. |
-| FR-6.4 | Configuration SHALL be validated at startup (`ValidateOnStart`); missing key SHALL produce an actionable message. A documented fallback to `DEMO_KEY` MAY be allowed with a warning about its limits. |
+| FR-6.4 | Configuration SHALL be validated at startup (`ValidateOnStart`); missing key SHALL produce an actionable message. **Amended 2026-10-06 (OQ-6): no `DEMO_KEY` fallback; the app refuses to start without a key.** |
 
 ### 7.7 FR-7 — Angular UI (P2 / mandated if UI delivered)
 
