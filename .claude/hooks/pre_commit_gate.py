@@ -1,5 +1,5 @@
 """PreToolUse (Bash): on `git commit`, block secrets/unwanted files; run build+tests if a solution exists."""
-import json, sys, re, os, subprocess, glob
+import json, sys, re, os, subprocess, glob, shutil
 d = json.load(sys.stdin)
 cmd = (d.get("tool_input") or {}).get("command", "")
 if not re.search(r"\bgit\s+(-\S+\s+)*commit\b", cmd):
@@ -45,6 +45,11 @@ if not errs:
         else:
             t = run(["dotnet", "test", "--no-build", "--nologo", "-v", "q"])
             if t.returncode: errs.append("dotnet test failed:\n" + t.stdout[-1500:])
+            ui = os.path.join(root, "src", "marsphotos-ui")
+            npm = shutil.which("npm")
+            if not errs and npm and os.path.exists(os.path.join(ui, "package.json")) and os.path.isdir(os.path.join(ui, "node_modules")):
+                u = run([npm, "--prefix", ui, "test", "--", "--watch=false"])
+                if u.returncode: errs.append("UI tests failed:\n" + (u.stdout + u.stderr)[-1500:])
 if errs:
     sys.stderr.write("COMMIT BLOCKED by pre-commit gate:\n - " + "\n - ".join(errs) + "\n")
     sys.exit(2)
