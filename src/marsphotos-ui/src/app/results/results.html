@@ -1,0 +1,77 @@
+<p class="meta">Rover: {{ summary().rover }} · Completed in {{ seconds() }} s</p>
+
+<dl class="totals">
+  <div><dt>Lines</dt><dd>{{ summary().totals.lines }}</dd></div>
+  <div><dt>Valid dates</dt><dd>{{ summary().totals.valid }}</dd></div>
+  <div><dt>Invalid</dt><dd>{{ summary().totals.invalid }}</dd></div>
+  <div><dt>Outside range</dt><dd>{{ summary().totals.outsideMissionRange }}</dd></div>
+  <div><dt>Downloaded</dt><dd>{{ summary().totals.downloaded }}</dd></div>
+  <div><dt>Skipped</dt><dd>{{ summary().totals.skipped }}</dd></div>
+  <div><dt>Failed</dt><dd>{{ summary().totals.failed }}</dd></div>
+</dl>
+
+@if (summary().results.length === 0) {
+  <p class="empty-run">The run contained no dates.</p>
+} @else {
+  <ul class="cards">
+    @for (result of summary().results; track $index) {
+      <li class="card" [class]="'card status-' + result.status">
+        <article [attr.aria-labelledby]="'result-' + $index">
+          <h3 [id]="'result-' + $index">
+            {{ result.input }}
+            <span class="date">{{ result.date ?? 'no date' }}</span>
+          </h3>
+
+          <p class="badge">
+            <span aria-hidden="true">{{ symbol(result.status) }}</span>
+            <span>{{ label(result.status) }}</span>
+          </p>
+
+          <p class="counts">
+            New: {{ result.downloaded }} · Skipped: {{ result.skipped }} · Failed: {{ result.failed }}
+          </p>
+
+          @if (result.provider) {
+            <p class="source">Source: {{ result.provider }}</p>
+          }
+          @if (result.fallbackReason) {
+            <p class="note">Fallback used because: {{ result.fallbackReason }}</p>
+          }
+          @if (result.note && result.status !== 'NoPhotos') {
+            <p class="note">{{ result.note }}</p>
+          }
+
+          @if (result.errors.length > 0) {
+            <ul class="errors">
+              @for (error of result.errors; track $index) {
+                <li><code>{{ error.code }}</code> {{ error.message }}</li>
+              }
+            </ul>
+          }
+
+          @if (hasPhotoArea(result)) {
+            @if (result.photos.length === 0) {
+              <p class="empty">No photos were found for this date.</p>
+            } @else {
+              <ul class="thumbs">
+                @for (photo of result.photos; track photo.id) {
+                  <li>
+                    @if (photo.url) {
+                      <a [href]="photo.url" target="_blank" rel="noopener noreferrer">
+                        <img [src]="photo.url" [alt]="alt(result, photo)" loading="lazy" width="160" height="120" />
+                      </a>
+                    } @else {
+                      <p class="photo-failed">
+                        Photo {{ photo.id }} could not be saved: {{ photo.error?.message ?? 'unknown error' }}
+                      </p>
+                    }
+                  </li>
+                }
+              </ul>
+            }
+          }
+        </article>
+      </li>
+    }
+  </ul>
+}

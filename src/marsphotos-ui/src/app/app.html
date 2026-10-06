@@ -1,0 +1,35 @@
+<a class="skip-link" href="#results">Skip to results</a>
+
+<header class="app-header">
+  <h1>Mars Rover Photo Downloader</h1>
+  <p>Reads dates from the server's dates file and saves Curiosity rover photos for each valid date.</p>
+</header>
+
+<main>
+  <section aria-labelledby="run-heading">
+    <h2 id="run-heading">Run</h2>
+    <div class="actions">
+      <button type="button" class="run" (click)="run()" [disabled]="running()">Run</button>
+      <button type="button" class="cancel" (click)="cancel()" [disabled]="!running() || cancelling()">Cancel run</button>
+    </div>
+    <p class="status" role="status" aria-live="polite">{{ statusMessage() }}</p>
+  </section>
+
+  @if (error(); as e) {
+    <div class="alert" role="alert">
+      <h2>{{ e.title }}</h2>
+      <p>{{ e.detail }}</p>
+      <p class="code">Error code: <code>{{ e.code }}</code></p>
+      <button type="button" (click)="run()" [disabled]="running()">Try again</button>
+    </div>
+  }
+
+  <section id="results" aria-labelledby="results-heading" [attr.aria-busy]="running()">
+    <h2 id="results-heading">Results</h2>
+    @if (summary(); as s) {
+      <app-results [summary]="s" />
+    } @else if (!running()) {
+      <p class="hint">No run yet. Select <strong>Run</strong> to download photos for the dates in the dates file.</p>
+    }
+  </section>
+</main>

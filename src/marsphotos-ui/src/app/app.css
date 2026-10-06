@@ -1,0 +1,91 @@
+:host {
+  display: block;
+  max-width: 64rem;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+.skip-link {
+  position: absolute;
+  left: -999px;
+  top: 0;
+  background: #0b57d0;
+  color: #ffffff;
+  padding: 0.5rem 1rem;
+  z-index: 10;
+}
+
+.skip-link:focus {
+  left: 0.5rem;
+  top: 0.5rem;
+}
+
+.app-header h1 {
+  margin: 0 0 0.25rem;
+}
+
+.app-header p {
+  margin: 0 0 1.5rem;
+  color: #3b3b3b;
+}
+
+h2 {
+  font-size: 1.25rem;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+button {
+  font: inherit;
+  min-height: 2.75rem;
+  padding: 0.5rem 1.25rem;
+  border-radius: 0.5rem;
+  border: 2px solid #0b57d0;
+  background: #0b57d0;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+button.cancel {
+  background: #ffffff;
+  color: #0b57d0;
+}
+
+button:disabled {
+  border-color: #767676;
+  background: #e8e8e8;
+  color: #4a4a4a;
+  cursor: not-allowed;
+}
+
+.status {
+  min-height: 1.5rem;
+  margin: 0.75rem 0 1.25rem;
+  font-weight: 600;
+}
+
+.alert {
+  border: 2px solid #a5192b;
+  background: #fde4e7;
+  color: #5c0b16;
+  border-radius: 0.5rem;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.alert h2 {
+  margin-top: 0;
+}
+
+.alert button {
+  background: #a5192b;
+  border-color: #a5192b;
+}
+
+.hint {
+  color: #3b3b3b;
+}

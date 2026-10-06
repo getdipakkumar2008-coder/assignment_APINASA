@@ -1,0 +1,154 @@
+:host {
+  display: block;
+}
+
+.meta {
+  margin: 0 0 0.75rem;
+  color: #3b3b3b;
+}
+
+.totals {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(7.5rem, 1fr));
+  gap: 0.5rem;
+  margin: 0 0 1.25rem;
+}
+
+.totals div {
+  background: #f1f3f6;
+  border: 1px solid #c9ced6;
+  border-radius: 0.5rem;
+  padding: 0.5rem 0.75rem;
+}
+
+.totals dt {
+  font-size: 0.85rem;
+  color: #3b3b3b;
+}
+
+.totals dd {
+  margin: 0;
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+
+.cards {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 1rem;
+}
+
+.card {
+  border: 1px solid #c9ced6;
+  border-left-width: 0.4rem;
+  border-radius: 0.5rem;
+  background: #ffffff;
+  padding: 0.75rem 1rem;
+}
+
+.card.status-Success {
+  border-left-color: #1b6e2f;
+}
+
+.card.status-PartialFailure,
+.card.status-SourceUnavailable,
+.card.status-Cancelled {
+  border-left-color: #8a5a00;
+}
+
+.card.status-Failed,
+.card.status-InvalidDate,
+.card.status-UnrecognizedDate {
+  border-left-color: #a5192b;
+}
+
+.card.status-NoPhotos,
+.card.status-OutsideMissionRange,
+.card.status-DuplicateDate {
+  border-left-color: #4a5568;
+}
+
+h3 {
+  margin: 0 0 0.25rem;
+  font-size: 1.1rem;
+}
+
+.date {
+  font-weight: 400;
+  color: #3b3b3b;
+  margin-left: 0.5rem;
+}
+
+.badge {
+  display: inline-flex;
+  gap: 0.4rem;
+  align-items: center;
+  margin: 0 0 0.5rem;
+  padding: 0.1rem 0.6rem;
+  border-radius: 1rem;
+  background: #eceff3;
+  font-weight: 600;
+}
+
+.status-Success .badge {
+  background: #dff3e4;
+  color: #0f4d1e;
+}
+
+.status-PartialFailure .badge,
+.status-SourceUnavailable .badge,
+.status-Cancelled .badge {
+  background: #fff1d6;
+  color: #5c3b00;
+}
+
+.status-Failed .badge,
+.status-InvalidDate .badge,
+.status-UnrecognizedDate .badge {
+  background: #fde4e7;
+  color: #7a1020;
+}
+
+.counts,
+.source,
+.note,
+.empty,
+.empty-run {
+  margin: 0.25rem 0;
+}
+
+.errors {
+  margin: 0.5rem 0;
+  padding-left: 1.25rem;
+  color: #7a1020;
+}
+
+.thumbs {
+  list-style: none;
+  margin: 0.75rem 0 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.thumbs img {
+  display: block;
+  width: 160px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 0.25rem;
+  border: 1px solid #c9ced6;
+  background: #e5e8ec;
+}
+
+.photo-failed {
+  margin: 0;
+  max-width: 16rem;
+  padding: 0.5rem;
+  border: 1px dashed #a5192b;
+  border-radius: 0.25rem;
+  color: #7a1020;
+}
