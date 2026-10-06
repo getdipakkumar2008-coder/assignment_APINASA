@@ -30,6 +30,13 @@ public static class ServiceCollectionExtensions
         services.AddOptions<RunOptions>()
             .Bind(configuration.GetSection(RunOptions.SectionName))
             .ValidateOnStart();
+        // Relative InputFile / OutputRoot values are resolved against the solution root (not the process working directory).
+        services.PostConfigure<RunOptions>(run =>
+        {
+            var root = ProjectPaths.FindRoot();
+            run.InputFile = string.IsNullOrWhiteSpace(run.InputFile) ? run.InputFile : ProjectPaths.Resolve(run.InputFile, root);
+            run.OutputRoot = string.IsNullOrWhiteSpace(run.OutputRoot) ? run.OutputRoot : ProjectPaths.Resolve(run.OutputRoot, root);
+        });
         services.TryAddEnumerable(ServiceDescriptor.Singleton<IValidateOptions<NasaOptions>, NasaOptionsValidator>());
         services.TryAddEnumerable(ServiceDescriptor.Singleton<IValidateOptions<RunOptions>, RunOptionsValidator>());
 

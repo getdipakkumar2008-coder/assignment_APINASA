@@ -169,7 +169,8 @@ public static class CliApp
                         return new ParsedArgs(overrides, json, false, $"--count must be a whole number (was '{value}').");
                     }
 
-                    overrides[key] = value;
+                    // paths typed on the command line are relative to the current directory, as users expect
+                    overrides[key] = key is "Run:InputFile" or "Run:OutputRoot" ? Path.GetFullPath(value) : value;
                     break;
                 default:
                     return new ParsedArgs(overrides, json, false, $"Unknown argument '{args[i]}'.");
