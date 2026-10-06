@@ -103,10 +103,10 @@ description: "Task list for Mars Rover Photo Downloader"
 
 **Independent Test**: run the use case over a mixed list; the rendered table lists each line once and totals add up.
 
-- [ ] T029 [P] [US2] Write `tests/MarsPhotos.Tests/Output/ConsoleSummaryRendererTests.cs`: one row per input line (input, date or `-`, status, source, New/Skip/Fail, notes with `CODE: message`), totals line equals sums (lines/valid/invalid/downloaded/skipped/failed), `April 31, 2018` row shows "Day 31 does not exist in April 2018", fixture containing `test-key-0000` in an error detail is never printed. Tag `AC-7`. [FR-019, FR-021, FR-036, SC-006, SC-007]
-- [ ] T030 [P] [US2] Write `tests/MarsPhotos.Tests/Output/RunSummaryJsonTests.cs`: serialization matches `contracts/openapi.yaml` `RunSummary` (camelCase, enum names as strings, relative photo `url`, null `date` for invalid). [FR-020, contracts §openapi]
-- [ ] T031 [US2] Implement `src/MarsPhotos.Application/Output/ConsoleSummaryRenderer.cs` and `RunSummaryJson.cs` (System.Text.Json options shared by CLI and API). Makes T029/T030 pass. [FR-019, FR-020]
-- [ ] T032 [US2] Implement `src/MarsPhotos.Cli/Program.cs`: load `.env`, generic host, `AddMarsPhotos`, args `--file --rover --count --out --json`, run use case, render table (or JSON to stdout, logs to stderr), exit codes per `contracts/cli.md` (0 completed; 1 fatal config/input/output/arguments; 2 unexpected; 130 cancelled via Ctrl+C `CancellationToken`). Test `tests/MarsPhotos.Tests/Cli/CliExitCodeTests.cs` using the program's testable `RunAsync(args, services)`: missing key→1, missing file→1, completed with failed date→0, bad `--count 9`→1, cancelled→130. [FR-022, FR-025, AC-1, AC-7]
+- [X] T029 [P] [US2] Write `tests/MarsPhotos.Tests/Output/ConsoleSummaryRendererTests.cs`: one row per input line (input, date or `-`, status, source, New/Skip/Fail, notes with `CODE: message`), totals line equals sums (lines/valid/invalid/downloaded/skipped/failed), `April 31, 2018` row shows "Day 31 does not exist in April 2018", fixture containing `test-key-0000` in an error detail is never printed. Tag `AC-7`. [FR-019, FR-021, FR-036, SC-006, SC-007]
+- [X] T030 [P] [US2] Write `tests/MarsPhotos.Tests/Output/RunSummaryJsonTests.cs`: serialization matches `contracts/openapi.yaml` `RunSummary` (camelCase, enum names as strings, relative photo `url`, null `date` for invalid). [FR-020, contracts §openapi]
+- [X] T031 [US2] Implement `src/MarsPhotos.Application/Output/ConsoleSummaryRenderer.cs` and `RunSummaryJson.cs` (System.Text.Json options shared by CLI and API). Makes T029/T030 pass. [FR-019, FR-020]
+- [X] T032 [US2] Implement `src/MarsPhotos.Cli/Program.cs`: load `.env`, generic host, `AddMarsPhotos`, args `--file --rover --count --out --json`, run use case, render table (or JSON to stdout, logs to stderr), exit codes per `contracts/cli.md` (0 completed; 1 fatal config/input/output/arguments; 2 unexpected; 130 cancelled via Ctrl+C `CancellationToken`). Test `tests/MarsPhotos.Tests/Cli/CliExitCodeTests.cs` using the program's testable `RunAsync(args, services)`: missing key→1, missing file→1, completed with failed date→0, bad `--count 9`→1, cancelled→130. [FR-022, FR-025, AC-1, AC-7]
 
 **COMMIT**: `feat: add console summary and JSON output` · `feat: add CLI runner with exit codes`
 
@@ -118,9 +118,11 @@ description: "Task list for Mars Rover Photo Downloader"
 
 **Independent Test**: run twice against fakes; second run downloads 0 and does not touch files.
 
-- [ ] T033 [P] [US3] Write `tests/MarsPhotos.Tests/Processing/IdempotencyTests.cs` using a real temp-dir store and a counting fake downloader: second run → 0 downloader calls, `Skipped` = first run's total, file timestamps unchanged (`LastWriteTimeUtc`); deleting one file → exactly one download; zero-byte existing file → re-downloaded; stale `.part` file → ignored/overwritten; adding one new date → only its photos downloaded. Tag `AC-5`. [FR-015, FR-016, FR-036, NFR-3, SC-003, AC-5]
-- [ ] T034 [US3] Adjust `ProcessDatesUseCase`/`FileSystemPhotoStore` so existence checks occur before any HTTP request, skipped photos produce `PhotoStatus.Skipped`, and `.part` files are never treated as existing (fixes anything T033 exposes; no behaviour change if already green). [FR-015, FR-016]
-- [ ] T035 [P] [US3] Add `tests/MarsPhotos.Tests/Storage/CrashSimulationTests.cs`: downloader stream throws mid-copy → no final file, `.part` removed; cancellation mid-copy → same. [FR-016, AC-6, SC-005]
+- [X] T033 [P] [US3] Write `tests/MarsPhotos.Tests/Processing/IdempotencyTests.cs` using a real temp-dir store and a counting fake downloader: second run → 0 downloader calls, `Skipped` = first run's total, file timestamps unchanged (`LastWriteTimeUtc`); deleting one file → exactly one download; zero-byte existing file → re-downloaded; stale `.part` file → ignored/overwritten; adding one new date → only its photos downloaded. Tag `AC-5`. [FR-015, FR-016, FR-036, NFR-3, SC-003, AC-5]
+- [X] T034 [US3] Adjust `ProcessDatesUseCase`/`FileSystemPhotoStore` so existence checks occur before any HTTP request, skipped photos produce `PhotoStatus.Skipped`, and `.part` files are never treated as existing (fixes anything T033 exposes; no behaviour change if already green). [FR-015, FR-016]
+- [X] T035 [P] [US3] Add `tests/MarsPhotos.Tests/Storage/CrashSimulationTests.cs`: downloader stream throws mid-copy → no final file, `.part` removed; cancellation mid-copy → same. [FR-016, AC-6, SC-005]
+
+**Notes (US3/US4)**: idempotency already held because the use case checks `Exists` before any request (T034 needed no code change); T036's cases are covered by `ProcessDatesUseCaseTests` (partial/all-failed/unexpected/cancel/unwritable-root); T037's hardening is in `ProcessDatesUseCase`, which now also redacts `api_key=` from provider/download/exception messages before logging or reporting.
 
 **COMMIT**: `feat: prevent duplicate downloads (with idempotency and crash-safety tests)`
 
@@ -132,9 +134,9 @@ description: "Task list for Mars Rover Photo Downloader"
 
 **Independent Test**: simulated 429/5xx/timeout/404/HTML/invalid JSON/one failing photo → run completes with clear errors.
 
-- [ ] T036 [P] [US4] Write `tests/MarsPhotos.Tests/Processing/FailureIsolationTests.cs`: one photo download fails → others saved, date `PartialFailure`, error listed `DL_FAILED`; all fail → `Failed`; provider `Unavailable` for date 2 → date 1 and 3 still `Success`; unexpected exception inside one date's processing is caught → that date `Failed` with `IO_ERROR`/generic code, others continue; unwritable root → fatal `IO_ERROR` surfaced. Tag `AC-6`. [FR-017, NFR-2, SC-005, FR-022]
-- [ ] T037 [US4] Harden `ProcessDatesUseCase` per T036 (per-date `try/catch` for non-cancellation exceptions, per-photo isolation, cancellation rethrown), and add structured logging with date/photo/attempt scopes (never keys). [FR-017, FR-026, NFR-9]
-- [ ] T038 [P] [US4] Add `tests/MarsPhotos.Tests/Logging/NoSecretInLogsTests.cs`: run the full use case with a capturing logger and key `test-key-0000` configured; assert no log line, exception message or summary contains it, and request logging shows `api_key=***` only. Tag `AC-8`. [FR-026, SEC-1, SC-007]
+- [X] T036 [P] [US4] Write `tests/MarsPhotos.Tests/Processing/FailureIsolationTests.cs`: one photo download fails → others saved, date `PartialFailure`, error listed `DL_FAILED`; all fail → `Failed`; provider `Unavailable` for date 2 → date 1 and 3 still `Success`; unexpected exception inside one date's processing is caught → that date `Failed` with `IO_ERROR`/generic code, others continue; unwritable root → fatal `IO_ERROR` surfaced. Tag `AC-6`. [FR-017, NFR-2, SC-005, FR-022]
+- [X] T037 [US4] Harden `ProcessDatesUseCase` per T036 (per-date `try/catch` for non-cancellation exceptions, per-photo isolation, cancellation rethrown), and add structured logging with date/photo/attempt scopes (never keys). [FR-017, FR-026, NFR-9]
+- [X] T038 [P] [US4] Add `tests/MarsPhotos.Tests/Logging/NoSecretInLogsTests.cs`: run the full use case with a capturing logger and key `test-key-0000` configured; assert no log line, exception message or summary contains it, and request logging shows `api_key=***` only. Tag `AC-8`. [FR-026, SEC-1, SC-007]
 
 **COMMIT**: `feat: isolate per-date and per-photo failures` · `feat: add no-secret-in-logs tests`
 

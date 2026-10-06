@@ -55,7 +55,7 @@ public sealed class ProcessDatesUseCase(
             }
             catch (Exception ex)
             {
-                logger.LogError(ex, "Unexpected error while processing line {LineNumber}", lines[i].LineNumber);
+                logger.LogError("Unexpected error while processing line {LineNumber}: {ErrorType} {Message}", lines[i].LineNumber, ex.GetType().Name, Redaction.RedactApiKey(ex.Message));
                 results.Add(DateResult.WithoutLookup(
                     lines[i].RawText,
                     DateOf(lines[i], settings),
@@ -107,10 +107,11 @@ public sealed class ProcessDatesUseCase(
         switch (answer)
         {
             case ProviderResult.Unavailable unavailable:
-                logger.LogWarning("No photo source could serve {Date}: {Code} {Message}", date, unavailable.ErrorCode, unavailable.Message);
+                var message = Redaction.RedactApiKey(unavailable.Message);
+                logger.LogWarning("No photo source could serve {Date}: {Code} {Message}", date, unavailable.ErrorCode, message);
                 return new DateResult(
                     line.RawText, date, DateResultStatus.SourceUnavailable, answer.Provider, answer.FallbackReason, 0, [],
-                    [new ErrorInfo(unavailable.ErrorCode, unavailable.Message)]);
+                    [new ErrorInfo(unavailable.ErrorCode, message)]);
 
             case ProviderResult.NoPhotos:
                 return new DateResult(
@@ -193,13 +194,14 @@ public sealed class ProcessDatesUseCase(
         }
         catch (Exception ex)
         {
-            logger.LogError(ex, "Unexpected error downloading photo {PhotoId}", photo.Id);
+            logger.LogError("Unexpected error downloading photo {PhotoId}: {ErrorType} {Message}", photo.Id, ex.GetType().Name, Redaction.RedactApiKey(ex.Message));
             return Failed(photo, ErrorCodes.UnexpectedError, ex.GetType().Name);
         }
     }
 
-    private PhotoOutcome Failed(RoverPhoto photo, string code, string message)
+    private PhotoOutcome Failed(RoverPhoto photo, string code, string rawMessage)
     {
+        var message = Redaction.RedactApiKey(rawMessage);
         logger.LogWarning("Photo {PhotoId} failed: {Code} {Message}", photo.Id, code, message);
         return new PhotoOutcome(photo.Id, PhotoStatus.Failed, null, code, message, null);
     }
