@@ -569,7 +569,7 @@ Given/When/Then format for testability.
 | OQ-6 | Behavior when the API key is absent: fail or fall back to `DEMO_KEY`? | Fail with guidance; opt-in fallback flag |
 | OQ-7 | Exit code policy for partial success? | `0` if run completed (errors reported in summary); non-zero only for fatal errors |
 | OQ-8 | Is the photo `earth_date` guaranteed equal to the requested date in responses? | Verify live; log mismatch |
-| OQ-10 | **BLOCKING:** the specified API is unavailable — approve the provider-fallback approach in §22? | Yes: primary adapter per brief + fallback adapter on NASA raw-image feed |
+| OQ-10 | The specified API is unavailable — provider-fallback approach in §22? | **APPROVED 2026-10-06**: primary adapter per brief + fallback adapter on NASA raw-image feed |
 | OQ-9 | Is a `sol`-based fallback desired when `earth_date` returns nothing? | No (out of scope) |
 
 ---
